@@ -19,7 +19,9 @@ echecs = {}; R = struct();
 for i = 1:numel(mods)
     m = mods(i);
     fprintf('\n===== mod_%s : %s =====\n', m.nom, m.titre);
+    setappdata(0, 'liste_blocs', {});
     if strcmp(m.nom, 'fsk2'), mdl = construire_fsk(m, P); else, mdl = construire_lineaire(m, P); end
+    fid = fopen(fullfile(ici, [mdl '_blocs.json']), 'w'); fprintf(fid, '%s', jsonencode(getappdata(0, 'liste_blocs'), 'PrettyPrint', true)); fclose(fid);
     save_system(mdl, fullfile(ici, [mdl '.slx']));
     try, print(['-s' mdl], '-dpng', '-r150', fullfile(ici, [mdl '_schema.png'])); catch err, fprintf('Schema non exporte : %s\n', err.message); end
     [r, e] = verifier(mdl, m, P, ici);
@@ -59,6 +61,7 @@ end
 function b = ajouter(mdl, lib, nom, col, lig, varargin)
 x = 30 + 130 * col; y = 30 + 90 * lig;
 b = [mdl '/' nom];
+L = getappdata(0, 'liste_blocs'); L{end + 1} = struct('bloc', nom, 'bibliotheque', strrep(lib, 'simulink/', ''), 'parametres', {varargin}); setappdata(0, 'liste_blocs', L);
 add_block(lib, b, 'Position', [x y x + 75 y + 45], varargin{:});
 end
 

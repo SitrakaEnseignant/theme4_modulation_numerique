@@ -80,8 +80,8 @@ jobs:
           cd depot
           mkdir -p Simulink/modeles Simulink/resultats GNU_Radio/resultats
           cp ../resultats/resultats-simulink/*.slx Simulink/modeles/ 2>/dev/null || true
-          cp ../resultats/resultats-simulink/*_schema.png Simulink/modeles/ 2>/dev/null || true
-          for f in ../resultats/resultats-simulink/*; do case "$f" in *.slx|*_schema.png) ;; *) cp "$f" Simulink/resultats/ ;; esac; done
+          cp ../resultats/resultats-simulink/*_schema.png ../resultats/resultats-simulink/*_blocs.json Simulink/modeles/ 2>/dev/null || true
+          for f in ../resultats/resultats-simulink/*; do case "$f" in *.slx|*_schema.png|*_blocs.json) ;; *) cp "$f" Simulink/resultats/ ;; esac; done
           cp ../resultats/resultats-gnuradio/* GNU_Radio/resultats/ 2>/dev/null || true
           cp ../resultats/ETAT.txt . 2>/dev/null || true
           git config user.name "github-actions" && git config user.email "actions@github.com"
