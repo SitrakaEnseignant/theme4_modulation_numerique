@@ -1,0 +1,520 @@
+[
+  {
+    "bloc": "src",
+    "bibliotheque": "Sources/Uniform Random Number",
+    "parametres": [
+      "Minimum",
+      "0",
+      "Maximum",
+      "M",
+      "Seed",
+      "graine",
+      "SampleTime",
+      "Ts"
+    ]
+  },
+  {
+    "bloc": "indice",
+    "bibliotheque": "Math Operations/Rounding Function",
+    "parametres": [
+      "Operator",
+      "floor"
+    ]
+  },
+  {
+    "bloc": "nrz",
+    "bibliotheque": "Lookup Tables/Direct Lookup Table (n-D)",
+    "parametres": [
+      "NumberOfTableDimensions",
+      "1",
+      "Table",
+      "ptsI"
+    ]
+  },
+  {
+    "bloc": "sym",
+    "bibliotheque": "Sinks/To Workspace",
+    "parametres": [
+      "VariableName",
+      "sym",
+      "SaveFormat",
+      "Array"
+    ]
+  },
+  {
+    "bloc": "mise_en_forme",
+    "bibliotheque": "Signal Attributes/Rate Transition",
+    "parametres": [
+      "OutPortSampleTime",
+      "1/fs"
+    ]
+  },
+  {
+    "bloc": "bb",
+    "bibliotheque": "Sinks/To Workspace",
+    "parametres": [
+      "VariableName",
+      "bb",
+      "SaveFormat",
+      "Array"
+    ]
+  },
+  {
+    "bloc": "sensibilite",
+    "bibliotheque": "Math Operations/Gain",
+    "parametres": [
+      "Gain",
+      "2*pi*excursion/fs"
+    ]
+  },
+  {
+    "bloc": "accumulateur",
+    "bibliotheque": "Discrete/Discrete-Time Integrator",
+    "parametres": [
+      "IntegratorMethod",
+      "Accumulation: Forward Euler",
+      "SampleTime",
+      "1/fs"
+    ]
+  },
+  {
+    "bloc": "cos",
+    "bibliotheque": "Math Operations/Trigonometric Function",
+    "parametres": [
+      "Operator",
+      "cos"
+    ]
+  },
+  {
+    "bloc": "sin",
+    "bibliotheque": "Math Operations/Trigonometric Function",
+    "parametres": [
+      "Operator",
+      "sin"
+    ]
+  },
+  {
+    "bloc": "fsk_mod",
+    "bibliotheque": "Math Operations/Real-Imag to Complex",
+    "parametres": [
+      "Input",
+      "Real and imag"
+    ]
+  },
+  {
+    "bloc": "lo_tx cos",
+    "bibliotheque": "Sources/Sine Wave",
+    "parametres": [
+      "Amplitude",
+      "1",
+      "Frequency",
+      "2*pi*fc",
+      "Phase",
+      "pi/2",
+      "SampleTime",
+      "1/fs"
+    ]
+  },
+  {
+    "bloc": "lo_tx sin",
+    "bibliotheque": "Sources/Sine Wave",
+    "parametres": [
+      "Amplitude",
+      "1",
+      "Frequency",
+      "2*pi*fc",
+      "Phase",
+      "0",
+      "SampleTime",
+      "1/fs"
+    ]
+  },
+  {
+    "bloc": "lo_tx",
+    "bibliotheque": "Math Operations/Real-Imag to Complex",
+    "parametres": [
+      "Input",
+      "Real and imag"
+    ]
+  },
+  {
+    "bloc": "mix_tx",
+    "bibliotheque": "Math Operations/Product",
+    "parametres": [
+      "Inputs",
+      "2"
+    ]
+  },
+  {
+    "bloc": "emis_reel",
+    "bibliotheque": "Math Operations/Complex to Real-Imag",
+    "parametres": [
+      "Output",
+      "Real"
+    ]
+  },
+  {
+    "bloc": "bruit",
+    "bibliotheque": "Sources/Random Number",
+    "parametres": [
+      "Mean",
+      "0",
+      "Variance",
+      "sigma2",
+      "Seed",
+      "1",
+      "SampleTime",
+      "1/fs"
+    ]
+  },
+  {
+    "bloc": "canal",
+    "bibliotheque": "Math Operations/Sum",
+    "parametres": [
+      "Inputs",
+      "++"
+    ]
+  },
+  {
+    "bloc": "s",
+    "bibliotheque": "Sinks/To Workspace",
+    "parametres": [
+      "VariableName",
+      "s",
+      "SaveFormat",
+      "Array"
+    ]
+  },
+  {
+    "bloc": "scope_emis",
+    "bibliotheque": "Sinks/Scope",
+    "parametres": [
+      "NumInputPorts",
+      "1"
+    ]
+  },
+  {
+    "bloc": "lo_1 cos",
+    "bibliotheque": "Sources/Sine Wave",
+    "parametres": [
+      "Amplitude",
+      "2",
+      "Frequency",
+      "2*pi*(fc+excursion+df_ol)",
+      "Phase",
+      "phi_ol+pi/2",
+      "SampleTime",
+      "1/fs"
+    ]
+  },
+  {
+    "bloc": "lo_1 -sin",
+    "bibliotheque": "Sources/Sine Wave",
+    "parametres": [
+      "Amplitude",
+      "-2",
+      "Frequency",
+      "2*pi*(fc+excursion+df_ol)",
+      "Phase",
+      "phi_ol",
+      "SampleTime",
+      "1/fs"
+    ]
+  },
+  {
+    "bloc": "lo_1",
+    "bibliotheque": "Math Operations/Real-Imag to Complex",
+    "parametres": [
+      "Input",
+      "Real and imag"
+    ]
+  },
+  {
+    "bloc": "mix_1",
+    "bibliotheque": "Math Operations/Product",
+    "parametres": [
+      "Inputs",
+      "2"
+    ]
+  },
+  {
+    "bloc": "correlateur_1",
+    "bibliotheque": "Discrete/Discrete Filter",
+    "parametres": [
+      "Numerator",
+      "h_rx",
+      "Denominator",
+      "1"
+    ]
+  },
+  {
+    "bloc": "module_1",
+    "bibliotheque": "Math Operations/Complex to Magnitude-Angle",
+    "parametres": [
+      "Output",
+      "Magnitude"
+    ]
+  },
+  {
+    "bloc": "lo_0 cos",
+    "bibliotheque": "Sources/Sine Wave",
+    "parametres": [
+      "Amplitude",
+      "2",
+      "Frequency",
+      "2*pi*(fc-excursion+df_ol)",
+      "Phase",
+      "phi_ol+pi/2",
+      "SampleTime",
+      "1/fs"
+    ]
+  },
+  {
+    "bloc": "lo_0 -sin",
+    "bibliotheque": "Sources/Sine Wave",
+    "parametres": [
+      "Amplitude",
+      "-2",
+      "Frequency",
+      "2*pi*(fc-excursion+df_ol)",
+      "Phase",
+      "phi_ol",
+      "SampleTime",
+      "1/fs"
+    ]
+  },
+  {
+    "bloc": "lo_0",
+    "bibliotheque": "Math Operations/Real-Imag to Complex",
+    "parametres": [
+      "Input",
+      "Real and imag"
+    ]
+  },
+  {
+    "bloc": "mix_0",
+    "bibliotheque": "Math Operations/Product",
+    "parametres": [
+      "Inputs",
+      "2"
+    ]
+  },
+  {
+    "bloc": "correlateur_0",
+    "bibliotheque": "Discrete/Discrete Filter",
+    "parametres": [
+      "Numerator",
+      "h_rx",
+      "Denominator",
+      "1"
+    ]
+  },
+  {
+    "bloc": "module_0",
+    "bibliotheque": "Math Operations/Complex to Magnitude-Angle",
+    "parametres": [
+      "Output",
+      "Magnitude"
+    ]
+  },
+  {
+    "bloc": "difference",
+    "bibliotheque": "Math Operations/Sum",
+    "parametres": [
+      "Inputs",
+      "+-"
+    ]
+  },
+  {
+    "bloc": "y",
+    "bibliotheque": "Sinks/To Workspace",
+    "parametres": [
+      "VariableName",
+      "y",
+      "SaveFormat",
+      "Array"
+    ]
+  },
+  {
+    "bloc": "echantillonnage",
+    "bibliotheque": "Discrete/Zero-Order Hold",
+    "parametres": [
+      "SampleTime",
+      "[Ts, decalage]"
+    ]
+  },
+  {
+    "bloc": "decision",
+    "bibliotheque": "Logic and Bit Operations/Compare To Zero",
+    "parametres": [
+      "relop",
+      ">"
+    ]
+  },
+  {
+    "bloc": "dec",
+    "bibliotheque": "Sinks/To Workspace",
+    "parametres": [
+      "VariableName",
+      "dec",
+      "SaveFormat",
+      "Array"
+    ]
+  },
+  {
+    "bloc": "paire",
+    "bibliotheque": "Math Operations/Real-Imag to Complex",
+    "parametres": [
+      "Input",
+      "Real and imag"
+    ]
+  },
+  {
+    "bloc": "echantillonnage_paire",
+    "bibliotheque": "Discrete/Zero-Order Hold",
+    "parametres": [
+      "SampleTime",
+      "[Ts, decalage]"
+    ]
+  },
+  {
+    "bloc": "ech",
+    "bibliotheque": "Sinks/To Workspace",
+    "parametres": [
+      "VariableName",
+      "ech",
+      "SaveFormat",
+      "Array"
+    ]
+  },
+  {
+    "bloc": "lo_rx cos",
+    "bibliotheque": "Sources/Sine Wave",
+    "parametres": [
+      "Amplitude",
+      "2",
+      "Frequency",
+      "2*pi*(fc+df_ol)",
+      "Phase",
+      "phi_ol+pi/2",
+      "SampleTime",
+      "1/fs"
+    ]
+  },
+  {
+    "bloc": "lo_rx -sin",
+    "bibliotheque": "Sources/Sine Wave",
+    "parametres": [
+      "Amplitude",
+      "-2",
+      "Frequency",
+      "2*pi*(fc+df_ol)",
+      "Phase",
+      "phi_ol",
+      "SampleTime",
+      "1/fs"
+    ]
+  },
+  {
+    "bloc": "lo_rx",
+    "bibliotheque": "Math Operations/Real-Imag to Complex",
+    "parametres": [
+      "Input",
+      "Real and imag"
+    ]
+  },
+  {
+    "bloc": "mix_rx",
+    "bibliotheque": "Math Operations/Product",
+    "parametres": [
+      "Inputs",
+      "2"
+    ]
+  },
+  {
+    "bloc": "passe_bas",
+    "bibliotheque": "Discrete/Discrete Filter",
+    "parametres": [
+      "Numerator",
+      "h_pb",
+      "Denominator",
+      "1"
+    ]
+  },
+  {
+    "bloc": "retard",
+    "bibliotheque": "Discrete/Unit Delay",
+    "parametres": [
+      "SampleTime",
+      "1/fs"
+    ]
+  },
+  {
+    "bloc": "conj",
+    "bibliotheque": "Math Operations/Math Function",
+    "parametres": [
+      "Operator",
+      "conj"
+    ]
+  },
+  {
+    "bloc": "produit",
+    "bibliotheque": "Math Operations/Product",
+    "parametres": [
+      "Inputs",
+      "2"
+    ]
+  },
+  {
+    "bloc": "argument",
+    "bibliotheque": "Math Operations/Complex to Magnitude-Angle",
+    "parametres": [
+      "Output",
+      "Angle"
+    ]
+  },
+  {
+    "bloc": "discriminateur",
+    "bibliotheque": "Math Operations/Gain",
+    "parametres": [
+      "Gain",
+      "fs/(2*pi*excursion)"
+    ]
+  },
+  {
+    "bloc": "integrateur",
+    "bibliotheque": "Discrete/Discrete Filter",
+    "parametres": [
+      "Numerator",
+      "h_rx",
+      "Denominator",
+      "1"
+    ]
+  },
+  {
+    "bloc": "echantillonnage_d",
+    "bibliotheque": "Discrete/Zero-Order Hold",
+    "parametres": [
+      "SampleTime",
+      "[Ts, decalage]"
+    ]
+  },
+  {
+    "bloc": "decision_d",
+    "bibliotheque": "Logic and Bit Operations/Compare To Zero",
+    "parametres": [
+      "relop",
+      ">"
+    ]
+  },
+  {
+    "bloc": "dec_d",
+    "bibliotheque": "Sinks/To Workspace",
+    "parametres": [
+      "VariableName",
+      "dec_d",
+      "SaveFormat",
+      "Array"
+    ]
+  }
+]

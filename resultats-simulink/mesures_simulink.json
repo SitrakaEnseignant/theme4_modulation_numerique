@@ -1,0 +1,590 @@
+{
+  "ook": {
+    "titre": "OOK (tout ou rien)",
+    "puissance_signal": 0.25389640470787755,
+    "sans_bruit": {
+      "retard_symboles": 1,
+      "rotation_ambiguite_deg": 0,
+      "erreurs_symboles": 0,
+      "symboles": 2700,
+      "gain": 1.0000965264620549,
+      "evm": 9.65264620549849E-5
+    },
+    "spectre": {
+      "niveau_premiers_zeros_dB": [
+        -56.158714351820876,
+        -54.474642414127118
+      ]
+    },
+    "taux": [
+      {
+        "EbN0_dB": 6,
+        "variance_bruit": 1.0204142943916523,
+        "TES": 0.079407407407407413,
+        "TEB": 0.079407407407407413,
+        "erreurs": 1072,
+        "mesure": 0.079407407407407413,
+        "theorie": 0.07575323713268528,
+        "conforme": true,
+        "TEB_discriminateur": null,
+        "glissements_de_cycle": 0,
+        "hors_accrochage": false
+      },
+      {
+        "EbN0_dB": 8,
+        "variance_bruit": 0.643837893458987,
+        "TES": 0.025777777777777778,
+        "TEB": 0.025777777777777778,
+        "erreurs": 348,
+        "mesure": 0.025777777777777778,
+        "theorie": 0.023324753677238019,
+        "conforme": true,
+        "TEB_discriminateur": null,
+        "glissements_de_cycle": 0,
+        "hors_accrochage": false
+      },
+      {
+        "EbN0_dB": 10,
+        "variance_bruit": 0.40623424753260406,
+        "TES": 0.0042962962962962963,
+        "TEB": 0.0042962962962962963,
+        "erreurs": 58,
+        "mesure": 0.0042962962962962963,
+        "theorie": 0.003635119219033367,
+        "conforme": true,
+        "TEB_discriminateur": null,
+        "glissements_de_cycle": 0,
+        "hors_accrochage": false
+      },
+      {
+        "EbN0_dB": 12,
+        "variance_bruit": 0.2563164820600814,
+        "TES": 0,
+        "TEB": 0,
+        "erreurs": 0,
+        "mesure": 0,
+        "theorie": 0.00019271434459050552,
+        "conforme": true,
+        "TEB_discriminateur": null,
+        "glissements_de_cycle": 0,
+        "hors_accrochage": false
+      },
+      {
+        "EbN0_dB": 14,
+        "variance_bruit": 0.16172476686713408,
+        "TES": 0,
+        "TEB": 0,
+        "erreurs": 0,
+        "mesure": 0,
+        "theorie": 1.8495411769348102E-6,
+        "conforme": true,
+        "TEB_discriminateur": null,
+        "glissements_de_cycle": 0,
+        "hors_accrochage": false
+      }
+    ]
+  },
+  "ask4": {
+    "titre": "ASK a 4 niveaux",
+    "puissance_signal": 0.19475175114656582,
+    "sans_bruit": {
+      "retard_symboles": 1,
+      "rotation_ambiguite_deg": 0,
+      "erreurs_symboles": 0,
+      "symboles": 2700,
+      "gain": 1.0000965264620598,
+      "evm": 9.6526462062963212E-5
+    },
+    "spectre": {
+      "niveau_premiers_zeros_dB": [
+        -58.814116281534872,
+        -57.129917975629134
+      ]
+    },
+    "taux": [
+      {
+        "EbN0_dB": 10,
+        "variance_bruit": 0.15580140091725264,
+        "TES": 0.11525925925925926,
+        "TEB": 0.057629629629629628,
+        "erreurs": 1556,
+        "mesure": 0.11525925925925926,
+        "theorie": 0.1142763629458107,
+        "conforme": true,
+        "TEB_discriminateur": null,
+        "glissements_de_cycle": 0,
+        "hors_accrochage": false
+      },
+      {
+        "EbN0_dB": 12,
+        "variance_bruit": 0.0983040381890437,
+        "TES": 0.046740740740740742,
+        "TEB": 0.023370370370370371,
+        "erreurs": 631,
+        "mesure": 0.046740740740740742,
+        "theorie": 0.045968635397045043,
+        "conforme": true,
+        "TEB_discriminateur": null,
+        "glissements_de_cycle": 0,
+        "hors_accrochage": false
+      },
+      {
+        "EbN0_dB": 14,
+        "variance_bruit": 0.062025654887438518,
+        "TES": 0.012222222222222223,
+        "TEB": 0.0061111111111111114,
+        "erreurs": 165,
+        "mesure": 0.012222222222222223,
+        "theorie": 0.011348207432379631,
+        "conforme": true,
+        "TEB_discriminateur": null,
+        "glissements_de_cycle": 0,
+        "hors_accrochage": false
+      },
+      {
+        "EbN0_dB": 16,
+        "variance_bruit": 0.039135542497423112,
+        "TES": 0.0011111111111111111,
+        "TEB": 0.00055555555555555556,
+        "erreurs": 15,
+        "mesure": 0.0011111111111111111,
+        "theorie": 0.0012953290534820361,
+        "conforme": true,
+        "TEB_discriminateur": null,
+        "glissements_de_cycle": 0,
+        "hors_accrochage": false
+      },
+      {
+        "EbN0_dB": 18,
+        "variance_bruit": 0.02469285796896584,
+        "TES": 0,
+        "TEB": 0,
+        "erreurs": 0,
+        "mesure": 0,
+        "theorie": 4.355135368172558E-5,
+        "conforme": true,
+        "TEB_discriminateur": null,
+        "glissements_de_cycle": 0,
+        "hors_accrochage": false
+      }
+    ]
+  },
+  "bpsk": {
+    "titre": "BPSK",
+    "puissance_signal": 0.49999999999999994,
+    "sans_bruit": {
+      "retard_symboles": 1,
+      "rotation_ambiguite_deg": 0,
+      "erreurs_symboles": 0,
+      "symboles": 2700,
+      "gain": 1.0000948208718534,
+      "evm": 0.0018494587762574327
+    },
+    "spectre": {
+      "niveau_premiers_zeros_dB": [
+        -37.3806060316993,
+        -35.696530631468306
+      ]
+    },
+    "taux": [
+      {
+        "EbN0_dB": 0,
+        "variance_bruit": 7.9999999999999991,
+        "TES": 0.08037037037037037,
+        "TEB": 0.08037037037037037,
+        "erreurs": 1085,
+        "mesure": 0.08037037037037037,
+        "theorie": 0.078649603525142553,
+        "conforme": true,
+        "TEB_discriminateur": null,
+        "glissements_de_cycle": 0,
+        "hors_accrochage": false
+      },
+      {
+        "EbN0_dB": 2,
+        "variance_bruit": 5.0476587558415451,
+        "TES": 0.03651851851851852,
+        "TEB": 0.03651851851851852,
+        "erreurs": 493,
+        "mesure": 0.03651851851851852,
+        "theorie": 0.037506128358925979,
+        "conforme": true,
+        "TEB_discriminateur": null,
+        "glissements_de_cycle": 0,
+        "hors_accrochage": false
+      },
+      {
+        "EbN0_dB": 4,
+        "variance_bruit": 3.1848573644279776,
+        "TES": 0.012444444444444444,
+        "TEB": 0.012444444444444444,
+        "erreurs": 168,
+        "mesure": 0.012444444444444444,
+        "theorie": 0.012500818040737558,
+        "conforme": true,
+        "TEB_discriminateur": null,
+        "glissements_de_cycle": 0,
+        "hors_accrochage": false
+      },
+      {
+        "EbN0_dB": 6,
+        "variance_bruit": 2.0095091452076641,
+        "TES": 0.0028148148148148147,
+        "TEB": 0.0028148148148148147,
+        "erreurs": 38,
+        "mesure": 0.0028148148148148147,
+        "theorie": 0.0023882907809328071,
+        "conforme": true,
+        "TEB_discriminateur": null,
+        "glissements_de_cycle": 0,
+        "hors_accrochage": false
+      },
+      {
+        "EbN0_dB": 8,
+        "variance_bruit": 1.2679145539688905,
+        "TES": 0.00014814814814814815,
+        "TEB": 0.00014814814814814815,
+        "erreurs": 2,
+        "mesure": 0.00014814814814814815,
+        "theorie": 0.00019090777407599298,
+        "conforme": true,
+        "TEB_discriminateur": null,
+        "glissements_de_cycle": 0,
+        "hors_accrochage": false
+      }
+    ]
+  },
+  "qpsk": {
+    "titre": "QPSK",
+    "puissance_signal": 0.50000392584857212,
+    "sans_bruit": {
+      "retard_symboles": 1,
+      "rotation_ambiguite_deg": 0,
+      "erreurs_symboles": 0,
+      "symboles": 2700,
+      "gain": 0.99983072358982006,
+      "evm": 0.018374546610344957
+    },
+    "spectre": {
+      "niveau_premiers_zeros_dB": [
+        -36.563002450314869,
+        -36.422596338756492
+      ]
+    },
+    "taux": [
+      {
+        "EbN0_dB": 0,
+        "variance_bruit": 4.0000314067885769,
+        "TES": 0.74859259259259259,
+        "TEB": 0.50014814814814812,
+        "erreurs": 10106,
+        "mesure": 0.74859259259259259,
+        "theorie": 0.15111344691562306,
+        "conforme": true,
+        "TEB_discriminateur": null,
+        "glissements_de_cycle": 10,
+        "hors_accrochage": true
+      },
+      {
+        "EbN0_dB": 2,
+        "variance_bruit": 2.5238491942646921,
+        "TES": 0.13925925925925925,
+        "TEB": 0.072222222222222215,
+        "erreurs": 1880,
+        "mesure": 0.13925925925925925,
+        "theorie": 0.073605547053375783,
+        "conforme": true,
+        "TEB_discriminateur": null,
+        "glissements_de_cycle": 1,
+        "hors_accrochage": true
+      },
+      {
+        "EbN0_dB": 4,
+        "variance_bruit": 1.5924411854817255,
+        "TES": 0.028222222222222221,
+        "TEB": 0.014185185185185184,
+        "erreurs": 381,
+        "mesure": 0.028222222222222221,
+        "theorie": 0.0248453656297875,
+        "conforme": true,
+        "TEB_discriminateur": null,
+        "glissements_de_cycle": 0,
+        "hors_accrochage": false
+      },
+      {
+        "EbN0_dB": 6,
+        "variance_bruit": 1.0047624616324404,
+        "TES": 0.0064444444444444445,
+        "TEB": 0.0032222222222222222,
+        "erreurs": 87,
+        "mesure": 0.0064444444444444445,
+        "theorie": 0.0047708776290113306,
+        "conforme": true,
+        "TEB_discriminateur": null,
+        "glissements_de_cycle": 0,
+        "hors_accrochage": false
+      },
+      {
+        "EbN0_dB": 8,
+        "variance_bruit": 0.63396225462498657,
+        "TES": 0.00022222222222222223,
+        "TEB": 0.00011111111111111112,
+        "erreurs": 3,
+        "mesure": 0.00022222222222222223,
+        "theorie": 0.00038177910237378404,
+        "conforme": true,
+        "TEB_discriminateur": null,
+        "glissements_de_cycle": 0,
+        "hors_accrochage": false
+      }
+    ]
+  },
+  "psk8": {
+    "titre": "8-PSK",
+    "puissance_signal": 0.49643997868634276,
+    "sans_bruit": {
+      "retard_symboles": 12,
+      "rotation_ambiguite_deg": 315,
+      "erreurs_symboles": 0,
+      "symboles": 2700,
+      "gain": 0.99974298999223,
+      "evm": 0.019458837341466709
+    },
+    "spectre": {
+      "part_puissance_bande": 0.99995278621763717
+    },
+    "taux": [
+      {
+        "EbN0_dB": 4,
+        "variance_bruit": 1.0540603480771116,
+        "TES": 0.52548148148148144,
+        "TEB": 0.26530864197530862,
+        "erreurs": 7094,
+        "mesure": 0.52548148148148144,
+        "theorie": 0.1373689037564238,
+        "conforme": true,
+        "TEB_discriminateur": null,
+        "glissements_de_cycle": 7,
+        "hors_accrochage": true
+      },
+      {
+        "EbN0_dB": 6,
+        "variance_bruit": 0.66506711814460251,
+        "TES": 0.1388888888888889,
+        "TEB": 0.06293827160493827,
+        "erreurs": 1875,
+        "mesure": 0.1388888888888889,
+        "theorie": 0.0614397397251312,
+        "conforme": true,
+        "TEB_discriminateur": null,
+        "glissements_de_cycle": 1,
+        "hors_accrochage": true
+      },
+      {
+        "EbN0_dB": 8,
+        "variance_bruit": 0.41962898276561322,
+        "TES": 0.02614814814814815,
+        "TEB": 0.00871604938271605,
+        "erreurs": 353,
+        "mesure": 0.02614814814814815,
+        "theorie": 0.018543155232649971,
+        "conforme": true,
+        "TEB_discriminateur": null,
+        "glissements_de_cycle": 0,
+        "hors_accrochage": false
+      },
+      {
+        "EbN0_dB": 10,
+        "variance_bruit": 0.26476798863271617,
+        "TES": 0.0050370370370370369,
+        "TEB": 0.0016790123456790125,
+        "erreurs": 68,
+        "mesure": 0.0050370370370370369,
+        "theorie": 0.0030341859621384748,
+        "conforme": true,
+        "TEB_discriminateur": null,
+        "glissements_de_cycle": 0,
+        "hors_accrochage": false
+      },
+      {
+        "EbN0_dB": 12,
+        "variance_bruit": 0.16705730701106061,
+        "TES": 0.00037037037037037035,
+        "TEB": 0.00012345679012345679,
+        "erreurs": 5,
+        "mesure": 0.00037037037037037035,
+        "theorie": 0.00019013636469900958,
+        "conforme": true,
+        "TEB_discriminateur": null,
+        "glissements_de_cycle": 0,
+        "hors_accrochage": false
+      }
+    ]
+  },
+  "qam16": {
+    "titre": "16-QAM",
+    "puissance_signal": 0.547244543359006,
+    "sans_bruit": {
+      "retard_symboles": 12,
+      "rotation_ambiguite_deg": 0,
+      "erreurs_symboles": 0,
+      "symboles": 2700,
+      "gain": 1.0000141661851563,
+      "evm": 0.0047735837567700152
+    },
+    "spectre": {
+      "part_puissance_bande": 0.99995421976590548
+    },
+    "taux": [
+      {
+        "EbN0_dB": 4,
+        "variance_bruit": 0.871447907029978,
+        "TES": 0.674,
+        "TEB": 0.28916666666666668,
+        "erreurs": 9099,
+        "mesure": 0.674,
+        "theorie": 0.22072933547615337,
+        "conforme": true,
+        "TEB_discriminateur": null,
+        "glissements_de_cycle": 9,
+        "hors_accrochage": true
+      },
+      {
+        "EbN0_dB": 6,
+        "variance_bruit": 0.54984645727245729,
+        "TES": 0.1362962962962963,
+        "TEB": 0.035166666666666666,
+        "erreurs": 1840,
+        "mesure": 0.1362962962962963,
+        "theorie": 0.10837798641478547,
+        "conforme": true,
+        "TEB_discriminateur": null,
+        "glissements_de_cycle": 0,
+        "hors_accrochage": false
+      },
+      {
+        "EbN0_dB": 8,
+        "variance_bruit": 0.34692966055247165,
+        "TES": 0.043333333333333335,
+        "TEB": 0.010907407407407407,
+        "erreurs": 585,
+        "mesure": 0.043333333333333335,
+        "theorie": 0.03664681110244028,
+        "conforme": true,
+        "TEB_discriminateur": null,
+        "glissements_de_cycle": 0,
+        "hors_accrochage": false
+      },
+      {
+        "EbN0_dB": 10,
+        "variance_bruit": 0.21889781734360239,
+        "TES": 0.0082222222222222228,
+        "TEB": 0.0020555555555555557,
+        "erreurs": 111,
+        "mesure": 0.0082222222222222228,
+        "theorie": 0.0070042942940099495,
+        "conforme": true,
+        "TEB_discriminateur": null,
+        "glissements_de_cycle": 0,
+        "hors_accrochage": false
+      },
+      {
+        "EbN0_dB": 12,
+        "variance_bruit": 0.13811518554362978,
+        "TES": 0.00066666666666666664,
+        "TEB": 0.00016666666666666666,
+        "erreurs": 9,
+        "mesure": 0.00066666666666666664,
+        "theorie": 0.00055455785032254568,
+        "conforme": true,
+        "TEB_discriminateur": null,
+        "glissements_de_cycle": 0,
+        "hors_accrochage": false
+      }
+    ]
+  },
+  "fsk2": {
+    "titre": "FSK binaire",
+    "puissance_signal": 0.49999849764279131,
+    "sans_bruit": {
+      "retard_symboles": 1,
+      "rotation_ambiguite_deg": 0,
+      "erreurs_symboles": 0,
+      "symboles": 2700,
+      "erreurs_discriminateur": 0
+    },
+    "spectre": {
+      "raies_Hz": [
+        3000,
+        5000
+      ]
+    },
+    "taux": [
+      {
+        "EbN0_dB": 4,
+        "variance_bruit": 3.1848477948411378,
+        "TES": 0.14385185185185184,
+        "TEB": 0.14385185185185184,
+        "erreurs": 1942,
+        "mesure": 0.14385185185185184,
+        "theorie": 0.1424035434814758,
+        "conforme": true,
+        "TEB_discriminateur": 0.339037037037037,
+        "glissements_de_cycle": 0,
+        "hors_accrochage": false
+      },
+      {
+        "EbN0_dB": 6,
+        "variance_bruit": 2.0095031072065637,
+        "TES": 0.070518518518518522,
+        "TEB": 0.070518518518518522,
+        "erreurs": 952,
+        "mesure": 0.070518518518518522,
+        "theorie": 0.06831109822261483,
+        "conforme": true,
+        "TEB_discriminateur": 0.2688888888888889,
+        "glissements_de_cycle": 0,
+        "hors_accrochage": false
+      },
+      {
+        "EbN0_dB": 8,
+        "variance_bruit": 1.2679107442477502,
+        "TES": 0.023851851851851853,
+        "TEB": 0.023851851851851853,
+        "erreurs": 322,
+        "mesure": 0.023851851851851853,
+        "theorie": 0.021323747889132938,
+        "conforme": true,
+        "TEB_discriminateur": 0.18125925925925926,
+        "glissements_de_cycle": 0,
+        "hors_accrochage": false
+      },
+      {
+        "EbN0_dB": 10,
+        "variance_bruit": 0.79999759622846611,
+        "TES": 0.00362962962962963,
+        "TEB": 0.00362962962962963,
+        "erreurs": 49,
+        "mesure": 0.00362962962962963,
+        "theorie": 0.0033689734995427335,
+        "conforme": true,
+        "TEB_discriminateur": 0.09318518518518519,
+        "glissements_de_cycle": 0,
+        "hors_accrochage": false
+      },
+      {
+        "EbN0_dB": 12,
+        "variance_bruit": 0.5047643589068509,
+        "TES": 0.00014814814814814815,
+        "TEB": 0.00014814814814814815,
+        "erreurs": 2,
+        "mesure": 0.00014814814814814815,
+        "theorie": 0.00018089150200558806,
+        "conforme": true,
+        "TEB_discriminateur": 0.035629629629629629,
+        "glissements_de_cycle": 0,
+        "hors_accrochage": false
+      }
+    ]
+  }
+}
