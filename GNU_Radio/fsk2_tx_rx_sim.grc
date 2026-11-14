@@ -6,7 +6,7 @@ options:
     cmake_opt: ''
     comment: ''
     copyright: ''
-    description: FSK binaire à phase continue, tons fc - 500 Hz et fc + 500 Hz (indice 1), bruit blanc gaussien, détection non cohérente par deux corrélateurs, et discriminateur de fréquence pour l'observation.
+    description: FSK binaire à phase continue, tons fc - 1000 Hz et fc + 1000 Hz (indice 2), bruit blanc gaussien, oscillateur local décalé, détection non cohérente par deux corrélateurs, et discriminateur de fréquence suivi d'un comparateur.
     gen_cmake: 'On'
     gen_linking: dynamic
     generate_options: qt_gui
@@ -22,7 +22,7 @@ options:
     run_options: prompt
     sizing_mode: fixed
     thread_safe_setters: ''
-    title: 'FSK binaire : modulateur de fréquence, canal et détection non cohérente (simulation)'
+    title: 'FSK binaire : modulateur de fréquence, canal, détection non cohérente et discriminateur (simulation)'
     window_size: (1200,1000)
   states:
     bus_sink: false
@@ -47,7 +47,7 @@ blocks:
     bus_source: false
     bus_structure: null
     coordinate:
-    - 1100
+    - 1300
     - 12
     rotation: 0
     state: enabled
@@ -146,18 +146,68 @@ blocks:
     - 110
     rotation: 0
     state: enabled
-- name: excursion
-  id: variable
+- name: phi_ol
+  id: qtgui_range
   parameters:
     alias: ''
     comment: ''
-    value: '500.0'
+    value: '0.7'
+    start: '-3.14'
+    stop: '3.14'
+    step: '0.01'
+    label: 'Erreur de phase de l''OL du récepteur (rad)'
+    widget: 'counter_slider'
+    rangeType: 'float'
+    gui_hint: '0,2,1,1'
+    orient: 'QtCore.Qt.Horizontal'
+    min_len: '200'
+    outputmsgname: 'value'
   states:
     bus_sink: false
     bus_source: false
     bus_structure: null
     coordinate:
-    - 380
+    - 440
+    - 110
+    rotation: 0
+    state: enabled
+- name: df_ol
+  id: qtgui_range
+  parameters:
+    alias: ''
+    comment: ''
+    value: '1.0'
+    start: '-50'
+    stop: '50'
+    step: '0.5'
+    label: 'Erreur de fréquence de l''OL du récepteur (Hz)'
+    widget: 'counter_slider'
+    rangeType: 'float'
+    gui_hint: '0,3,1,1'
+    orient: 'QtCore.Qt.Horizontal'
+    min_len: '200'
+    outputmsgname: 'value'
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate:
+    - 650
+    - 110
+    rotation: 0
+    state: enabled
+- name: excursion
+  id: variable
+  parameters:
+    alias: ''
+    comment: ''
+    value: '1000.0'
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate:
+    - 860
     - 12
     rotation: 0
     state: enabled
@@ -387,7 +437,7 @@ blocks:
     update_time: '0.10'
     grid: 'True'
     entags: 'False'
-    gui_hint: '1,0,1,1'
+    gui_hint: '1,0,1,2'
     legend: 'True'
     ylabel: 'Amplitude'
     yunit: '""'
@@ -432,7 +482,7 @@ blocks:
     update_time: '0.10'
     grid: 'True'
     autoscale: 'False'
-    gui_hint: '1,1,1,1'
+    gui_hint: '1,2,1,2'
     legend: 'True'
     axislabels: 'True'
     ctrlpanel: 'False'
@@ -473,7 +523,7 @@ blocks:
     bus_structure: null
     coordinate:
     - 16
-    - 460
+    - 480
     rotation: 0
     state: enabled
 - name: to_cplx
@@ -491,7 +541,7 @@ blocks:
     bus_structure: null
     coordinate:
     - 200
-    - 380
+    - 400
     rotation: 0
     state: enabled
 - name: lo_1
@@ -505,10 +555,10 @@ blocks:
     type: 'complex'
     samp_rate: 'samp_rate'
     waveform: 'analog.GR_COS_WAVE'
-    freq: '-(fc+excursion)'
+    freq: '-(fc+excursion+df_ol)'
     amp: '2'
     offset: '0'
-    phase: '0'
+    phase: '-phi_ol'
     showports: 'False'
   states:
     bus_sink: false
@@ -516,7 +566,7 @@ blocks:
     bus_structure: null
     coordinate:
     - 200
-    - 470
+    - 490
     rotation: 0
     state: enabled
 - name: mix_1
@@ -536,7 +586,7 @@ blocks:
     bus_structure: null
     coordinate:
     - 400
-    - 380
+    - 400
     rotation: 0
     state: enabled
 - name: correlateur_1
@@ -558,7 +608,7 @@ blocks:
     bus_structure: null
     coordinate:
     - 560
-    - 380
+    - 400
     rotation: 0
     state: enabled
 - name: module_1
@@ -576,7 +626,7 @@ blocks:
     bus_structure: null
     coordinate:
     - 760
-    - 380
+    - 400
     rotation: 0
     state: enabled
 - name: lo_0
@@ -590,10 +640,10 @@ blocks:
     type: 'complex'
     samp_rate: 'samp_rate'
     waveform: 'analog.GR_COS_WAVE'
-    freq: '-(fc-excursion)'
+    freq: '-(fc-excursion+df_ol)'
     amp: '2'
     offset: '0'
-    phase: '0'
+    phase: '-phi_ol'
     showports: 'False'
   states:
     bus_sink: false
@@ -601,7 +651,7 @@ blocks:
     bus_structure: null
     coordinate:
     - 200
-    - 630
+    - 670
     rotation: 0
     state: enabled
 - name: mix_0
@@ -621,7 +671,7 @@ blocks:
     bus_structure: null
     coordinate:
     - 400
-    - 540
+    - 580
     rotation: 0
     state: enabled
 - name: correlateur_0
@@ -643,7 +693,7 @@ blocks:
     bus_structure: null
     coordinate:
     - 560
-    - 540
+    - 580
     rotation: 0
     state: enabled
 - name: module_0
@@ -661,7 +711,7 @@ blocks:
     bus_structure: null
     coordinate:
     - 760
-    - 540
+    - 580
     rotation: 0
     state: enabled
 - name: difference
@@ -681,7 +731,7 @@ blocks:
     bus_structure: null
     coordinate:
     - 960
-    - 380
+    - 400
     rotation: 0
     state: enabled
 - name: oeil
@@ -715,7 +765,7 @@ blocks:
     ctrlpanel: 'False'
     entags: 'False'
     grid: 'True'
-    gui_hint: '2,0,1,1'
+    gui_hint: '2,0,1,2'
     label1: '"diagramme de l''oeil"'
     label10: 'Signal 10'
     label2: 'Signal 2'
@@ -779,7 +829,7 @@ blocks:
     bus_structure: null
     coordinate:
     - 1100
-    - 470
+    - 490
     rotation: 0
     state: enabled
 - name: decalage_ech
@@ -801,7 +851,7 @@ blocks:
     bus_structure: null
     coordinate:
     - 1100
-    - 380
+    - 400
     rotation: 0
     state: enabled
 - name: echantillonnage
@@ -821,7 +871,7 @@ blocks:
     bus_structure: null
     coordinate:
     - 1280
-    - 380
+    - 400
     rotation: 0
     state: enabled
 - name: decision
@@ -838,7 +888,7 @@ blocks:
     bus_structure: null
     coordinate:
     - 1450
-    - 380
+    - 400
     rotation: 0
     state: enabled
 - name: dec_float
@@ -857,7 +907,7 @@ blocks:
     bus_structure: null
     coordinate:
     - 1600
-    - 380
+    - 400
     rotation: 0
     state: enabled
 - name: paire
@@ -875,7 +925,7 @@ blocks:
     bus_structure: null
     coordinate:
     - 960
-    - 540
+    - 580
     rotation: 0
     state: enabled
 - name: decalage_paire
@@ -897,7 +947,7 @@ blocks:
     bus_structure: null
     coordinate:
     - 1100
-    - 540
+    - 580
     rotation: 0
     state: enabled
 - name: echantillonnage_paire
@@ -917,7 +967,7 @@ blocks:
     bus_structure: null
     coordinate:
     - 1280
-    - 540
+    - 580
     rotation: 0
     state: enabled
 - name: constellation_rx
@@ -949,7 +999,7 @@ blocks:
     color9: '"red"'
     comment: ''
     grid: 'True'
-    gui_hint: '2,1,1,1'
+    gui_hint: '2,2,1,2'
     label1: '"échantillons"'
     label10: ''
     label2: ''
@@ -1011,7 +1061,7 @@ blocks:
     bus_structure: null
     coordinate:
     - 1450
-    - 540
+    - 580
     rotation: 0
     state: enabled
 - name: lo_rx
@@ -1025,10 +1075,10 @@ blocks:
     type: 'complex'
     samp_rate: 'samp_rate'
     waveform: 'analog.GR_COS_WAVE'
-    freq: '-fc'
+    freq: '-(fc+df_ol)'
     amp: '2'
     offset: '0'
-    phase: '0'
+    phase: '-phi_ol'
     showports: 'False'
   states:
     bus_sink: false
@@ -1036,7 +1086,7 @@ blocks:
     bus_structure: null
     coordinate:
     - 200
-    - 790
+    - 850
     rotation: 0
     state: enabled
 - name: mix_rx
@@ -1056,7 +1106,7 @@ blocks:
     bus_structure: null
     coordinate:
     - 400
-    - 700
+    - 760
     rotation: 0
     state: enabled
 - name: passe_bas
@@ -1072,8 +1122,8 @@ blocks:
     interp: '1'
     gain: '1'
     samp_rate: 'samp_rate'
-    cutoff_freq: '2000'
-    width: '500'
+    cutoff_freq: '3000'
+    width: '1000'
     win: 'window.WIN_HAMMING'
     beta: '6.76'
   states:
@@ -1082,7 +1132,7 @@ blocks:
     bus_structure: null
     coordinate:
     - 560
-    - 700
+    - 760
     rotation: 0
     state: enabled
 - name: discriminateur
@@ -1100,7 +1150,107 @@ blocks:
     bus_structure: null
     coordinate:
     - 760
-    - 700
+    - 760
+    rotation: 0
+    state: enabled
+- name: integrateur
+  id: blocks_moving_average_xx
+  parameters:
+    alias: ''
+    comment: ''
+    affinity: ''
+    maxoutbuf: '0'
+    minoutbuf: '0'
+    type: 'float'
+    length: 'sps'
+    scale: '1.0/sps'
+    max_iter: '4000'
+    vlen: '1'
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate:
+    - 960
+    - 760
+    rotation: 0
+    state: enabled
+- name: decalage_d
+  id: blocks_skiphead
+  parameters:
+    affinity: ''
+    alias: ''
+    comment: 'skip one second of samples
+
+      to allow FLL to sync'
+    maxoutbuf: '0'
+    minoutbuf: '0'
+    num_items: '0'
+    type: 'float'
+    vlen: '1'
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate:
+    - 1100
+    - 760
+    rotation: 0
+    state: enabled
+- name: echantillonnage_d
+  id: blocks_keep_one_in_n
+  parameters:
+    affinity: ''
+    alias: ''
+    comment: ''
+    maxoutbuf: '0'
+    minoutbuf: '0'
+    n: 'sps'
+    type: 'float'
+    vlen: '1'
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate:
+    - 1280
+    - 760
+    rotation: 0
+    state: enabled
+- name: decision_d
+  id: digital_binary_slicer_fb
+  parameters:
+    affinity: ''
+    alias: ''
+    comment: ''
+    maxoutbuf: '0'
+    minoutbuf: '0'
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate:
+    - 1450
+    - 760
+    rotation: 0
+    state: enabled
+- name: dec_d_float
+  id: blocks_char_to_float
+  parameters:
+    affinity: ''
+    alias: ''
+    comment: ''
+    maxoutbuf: '0'
+    minoutbuf: '0'
+    scale: '1'
+    vlen: '1'
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate:
+    - 1600
+    - 760
     rotation: 0
     state: enabled
 - name: scope_discriminateur
@@ -1122,7 +1272,7 @@ blocks:
     update_time: '0.10'
     grid: 'True'
     entags: 'False'
-    gui_hint: '3,1,1,1'
+    gui_hint: '3,2,1,2'
     legend: 'True'
     ylabel: 'Amplitude'
     yunit: '""'
@@ -1143,7 +1293,7 @@ blocks:
     bus_structure: null
     coordinate:
     - 960
-    - 700
+    - 870
     rotation: 0
     state: enabled
 - name: tx_float
@@ -1177,14 +1327,14 @@ blocks:
     name: '"symboles"'
     size: '64'
     srate: 'samp_rate'
-    nconnections: '2'
+    nconnections: '3'
     autoscale: 'False'
     ymin: '-1'
     ymax: '2'
     update_time: '0.10'
     grid: 'True'
     entags: 'False'
-    gui_hint: '3,0,1,1'
+    gui_hint: '3,0,1,2'
     legend: 'True'
     ylabel: 'Amplitude'
     yunit: '""'
@@ -1198,14 +1348,15 @@ blocks:
     ctrlpanel: 'False'
     stemplot: 'False'
     label1: '"bit émis"'
-    label2: '"bit décidé"'
+    label2: '"bit décidé (corrélateurs)"'
+    label3: '"bit décidé (discriminateur)"'
   states:
     bus_sink: false
     bus_source: false
     bus_structure: null
     coordinate:
-    - 1600
-    - 660
+    - 1800
+    - 580
     rotation: 0
     state: enabled
 connections:
@@ -1361,6 +1512,26 @@ connections:
   - '0'
   - discriminateur
   - '0'
+- - discriminateur
+  - '0'
+  - integrateur
+  - '0'
+- - integrateur
+  - '0'
+  - decalage_d
+  - '0'
+- - decalage_d
+  - '0'
+  - echantillonnage_d
+  - '0'
+- - echantillonnage_d
+  - '0'
+  - decision_d
+  - '0'
+- - decision_d
+  - '0'
+  - dec_d_float
+  - '0'
 - - mise_en_forme
   - '0'
   - scope_discriminateur
@@ -1381,6 +1552,10 @@ connections:
   - '0'
   - symboles
   - '1'
+- - dec_d_float
+  - '0'
+  - symboles
+  - '2'
 metadata:
   file_format: 1
   grc_version: 3.10.9.2

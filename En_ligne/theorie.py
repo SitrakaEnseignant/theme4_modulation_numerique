@@ -28,3 +28,17 @@ def ber_ook_enveloppe(g):
 
 def ber_fsk_noncoherent(g): return 0.5 * np.exp(-g / 2)
 def ber_fsk_coherent(g): return Q(np.sqrt(g))
+
+def ser_ask_enveloppe(niveaux, g):
+    """M-ASK de niveaux donnés, détection d'enveloppe, seuils au milieu des niveaux (lois de Rice, Q1 de Marcum)"""
+    niv = np.asarray(niveaux, float); M = len(niv); gs = g * np.log2(M)
+    s2 = np.mean(niv ** 2) / (2 * gs)                 # variance par composante de la variable de décision
+    seuils = (niv[1:] + niv[:-1]) / 2
+    def queue(a, t):                                   # P(|z| > t) pour une amplitude a
+        return float(ncx2.sf(t * t / s2, 2, a * a / s2))
+    pe = 0.0
+    for i, a in enumerate(niv):
+        bas = queue(a, seuils[i - 1]) if i > 0 else 1.0
+        haut = queue(a, seuils[i]) if i < M - 1 else 0.0
+        pe += 1 - (bas - haut)
+    return pe / M

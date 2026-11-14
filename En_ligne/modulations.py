@@ -9,7 +9,12 @@ RS = FS / SPS       # rapidité de modulation : 1 000 symboles par seconde
 FC = 4000.0         # fréquence de la porteuse (Hz)
 ALPHA = 0.35        # facteur de retombée du filtre en racine de cosinus surélevé
 NTAPS = 11 * SPS + 1  # 353 coefficients : retard de 176 échantillons par filtre, 11 symboles pour la paire
-DF = 500.0          # excursion de la FSK binaire (Hz) : tons à fc - 500 et fc + 500 Hz, indice h = 1
+DF = 1000.0         # excursion de la FSK binaire (Hz) : tons à fc - 1000 et fc + 1000 Hz, indice h = 2 (comme la leçon Learn SDR)
+PHI_OL = 0.7        # erreur de phase de l'oscillateur local du récepteur (rad)
+DF_OL = 1.0         # erreur de fréquence de l'oscillateur local du récepteur (Hz)
+W_COSTAS = '2*math.pi/12800'   # bande de boucle de Costas, par échantillon (cadence complète)
+W_RECEPTEUR = '2*math.pi/400'  # bande de boucle du récepteur de constellation, par symbole
+CONVERGENCE = 300   # symboles ignorés pendant l'accrochage des boucles
 
 
 def gray(k):
@@ -35,22 +40,23 @@ MODS = {
     'ook':   dict(titre='OOK (tout ou rien)', M=2, pts=[0j, 1 + 0j], lab=[0, 1], mise_en_forme='rect',
                   detection='enveloppe', ebn0=[6, 8, 10, 12, 14], compare='TEB'),
     'ask4':  dict(titre='ASK à 4 niveaux', M=4, pts=[0j, 1 / 3 + 0j, 2 / 3 + 0j, 1 + 0j], lab=[gray(k) for k in range(4)],
-                  mise_en_forme='rect', detection='coherente', ebn0=[8, 10, 12, 14, 16], compare='TES'),
-    'bpsk':  dict(titre='BPSK', M=2, pts=[1 + 0j, -1 + 0j], lab=[0, 1], mise_en_forme='rrc', detection='coherente',
+                  mise_en_forme='rect', detection='enveloppe', ebn0=[10, 12, 14, 16, 18], compare='TES'),
+    'bpsk':  dict(titre='BPSK', M=2, pts=[1 + 0j, -1 + 0j], lab=[0, 1], mise_en_forme='rect', detection='costas', ordre=2,
                   ebn0=[0, 2, 4, 6, 8], compare='TES'),
-    'qpsk':  dict(titre='QPSK', M=4, mise_en_forme='rrc', detection='coherente', ebn0=[0, 2, 4, 6, 8], compare='TES'),
-    'psk8':  dict(titre='8-PSK', M=8, mise_en_forme='rrc', detection='coherente', ebn0=[4, 6, 8, 10, 12], compare='TES'),
-    'qam16': dict(titre='16-QAM', M=16, mise_en_forme='rrc', detection='coherente', ebn0=[4, 6, 8, 10, 12], compare='TES'),
+    'qpsk':  dict(titre='QPSK', M=4, mise_en_forme='rect', detection='costas', ordre=4, ebn0=[0, 2, 4, 6, 8], compare='TES'),
+    'psk8':  dict(titre='8-PSK', M=8, mise_en_forme='rrc', detection='costas', ordre=8, ebn0=[4, 6, 8, 10, 12], compare='TES'),
+    'qam16': dict(titre='16-QAM', M=16, mise_en_forme='rrc', detection='recepteur', ordre=4, ebn0=[4, 6, 8, 10, 12], compare='TES'),
     'fsk2':  dict(titre='FSK binaire', M=2, mise_en_forme='rect', detection='energie', ebn0=[4, 6, 8, 10, 12], compare='TEB'),
 }
 MODS['qpsk']['pts'], MODS['qpsk']['lab'] = _psk(4, np.pi / 4)
-MODS['psk8']['pts'], MODS['psk8']['lab'] = _psk(8)
+MODS['psk8']['pts'], MODS['psk8']['lab'] = _psk(8, np.pi / 8)
 MODS['qam16']['pts'], MODS['qam16']['lab'] = _qam16()
 MODS['fsk2']['pts'], MODS['fsk2']['lab'] = [-1 + 0j, 1 + 0j], [0, 1]
 for _k, _m in MODS.items():
     _m['nom'] = _k
     _m['bits'] = int(np.log2(_m['M']))
     _m['amp_moy'] = float(np.mean(np.abs(_m['pts'])))
+    _m.setdefault('ordre', 1)
 
 
 def table(pts):

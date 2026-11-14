@@ -8,7 +8,7 @@ import numpy as np
 import matplotlib; matplotlib.use('Agg'); import matplotlib.pyplot as plt
 ICI = os.path.dirname(os.path.abspath(__file__)); RACINE = os.path.dirname(ICI)
 sys.path.insert(0, ICI)
-from modulations import MODS, FS, SPS, RS, FC, ALPHA, DF
+from modulations import MODS, FS, SPS, RS, FC, ALPHA, DF, CONVERGENCE
 import theorie as T
 G = os.path.join(RACINE, 'GNU_Radio'); OUT = os.path.join(RACINE, 'resultats_gnuradio'); HL = os.path.join(OUT, 'hl')
 os.makedirs(HL, exist_ok=True)
@@ -56,25 +56,43 @@ def executer(nom, nsym, noise=0.0, tag='a'):
     return d, {'duree_s': round(time.time() - t0, 2), 'fin_naturelle': fini}
 
 
-def aligner(tx, dec, maxlag=60):
-    """retard (en symboles) entre les décisions et les symboles émis"""
-    n = min(len(tx), len(dec)) - maxlag - 10
-    best = max(range(maxlag), key=lambda L: np.mean(dec[L:L + n] == tx[:n]))
-    return best
+def permutations(m):
+    """ambiguïté de phase d'une boucle : rotation de 2 pi k / ordre, et permutation des indices qu'elle produit"""
+    pts = np.array(m['pts']); P = []
+    for k in range(m['ordre']):
+        r = np.exp(2j * np.pi * k / m['ordre'])
+        perm = np.argmin(np.abs((pts * r)[:, None] - pts[None, :]), 1)
+        if len(set(perm)) == len(pts): P.append((k, perm, r))
+    return P
 
 
-def erreurs(m, tx, dec, L):
-    n = min(len(tx), len(dec) - L) - 20
-    a, b = tx[20:n].astype(int), dec[20 + L:n + L].astype(int)
+def aligner(m, tx, dec, maxlag=60):
+    """retard (en symboles) et rotation d'ambiguïté qui alignent les décisions sur les symboles émis.
+    La rotation est levée sur une fenêtre de 500 symboles connus après l'accrochage, comme avec un préambule."""
+    tx = tx.astype(int); dec = dec.astype(int); best = None
+    for k, perm, r in permutations(m):
+        for L in range(maxlag):
+            a = perm[tx[CONVERGENCE:CONVERGENCE + 500]]; b = dec[CONVERGENCE + L:CONVERGENCE + L + 500]
+            if len(b) < 500: continue
+            acc = np.mean(a == b)
+            if best is None or acc > best[0]: best = (acc, L, k, perm, r)
+    return best[1], best[2], best[3], best[4]
+
+
+def erreurs(m, tx, dec, L, perm):
+    tx = tx.astype(int); dec = dec.astype(int)
+    n = min(len(tx), len(dec) - L) - 5
+    a, b = tx[CONVERGENCE:n], dec[CONVERGENCE + L:n + L]
+    inv = np.argsort(perm); bb = inv[b]
     lab = np.array(m['lab'])
-    nb = int(sum(bin(int(x)).count('1') for x in (lab[a] ^ lab[b])))
-    return int(np.sum(a != b)), len(a), nb, len(a) * m['bits']
+    nb = int(sum(bin(int(x)).count('1') for x in (lab[a] ^ lab[bb])))
+    return int(np.sum(a != bb)), len(a), nb, len(a) * m['bits']
 
 
 def theorie(m, g):
     k = m['nom']
     if k == 'ook': return float(T.ber_ook_enveloppe(g))
-    if k == 'ask4': return float(T.ser_ask_unipolaire(4, g))
+    if k == 'ask4': return float(T.ser_ask_enveloppe([abs(p) for p in m['pts']], g))
     if k in ('bpsk', 'qpsk', 'psk8'): return float(T.ser_mpsk(m['M'], g))
     if k == 'qam16': return float(T.ser_qam(16, g))
     if k == 'fsk2': return float(T.ber_fsk_noncoherent(g))
@@ -88,29 +106,34 @@ def dsp(x, N=4096):
 
 R, ECHECS = {}, []
 for k, m in MODS.items():
-    nom = f'{k}_tx_rx_sim'; r = R[k] = {'titre': m['titre']}
+    nom = f'{k}_tx_rx_sim'; r = R[k] = {'titre': m['titre']}; boucle = m['detection'] in ('costas', 'recepteur')
+    ideal = np.array(m['pts']) / (m['amp_moy'] if k != 'fsk2' else 1)
     print('=====', nom, flush=True)
     d, info = executer(nom, 4000, 0.0, 'sans_bruit'); r['execution_sans_bruit'] = info
     emis = d['scope_emis'][0]; Ps = float(np.mean(emis[SPS * 20:] ** 2)); r['puissance_signal'] = Ps
-    tx, dec = d['symboles'][0], d['symboles'][1]
-    L = aligner(tx, dec); e, n, eb, nbits = erreurs(m, tx, dec, L)
-    r['sans_bruit'] = {'retard_symboles': L, 'erreurs_symboles': e, 'symboles': n}
+    tx = d['symboles'][0].astype(int); dec = d['symboles'][1]
+    L, rot, perm, rr = aligner(m, tx, dec); e, n, eb, nbits = erreurs(m, tx, dec, L, perm)
+    r['sans_bruit'] = {'retard_symboles': L, 'rotation_ambiguite_deg': 360.0 * rot / m['ordre'], 'erreurs_symboles': e, 'symboles': n}
     if e: ECHECS.append(f'{k} : {e} erreurs sans bruit')
-    ech = d['constellation_rx'][0]
-    if k != 'fsk2':
-        ideal = np.array(m['pts']) / m['amp_moy']
-        n2 = min(len(ech) - L, len(tx)) - 20
-        ref = ideal[tx[20:n2].astype(int)]; mes = ech[20 + L:n2 + L]
+    if k == 'fsk2':
+        Ld, _, pd, _ = aligner(m, tx, d['symboles'][2]); ed = erreurs(m, tx, d['symboles'][2], Ld, pd)[0]
+        r['sans_bruit']['erreurs_discriminateur'] = ed
+        if ed: ECHECS.append(f'{k} : {ed} erreurs sans bruit au discriminateur')
+    else:
+        ech = d['constellation_rx'][0]; n2 = min(len(ech) - L, len(tx)) - 5
+        ref = ideal[tx[CONVERGENCE:n2]] * rr; mes = ech[CONVERGENCE + L:n2 + L]
+        if m['detection'] == 'enveloppe': ref, mes = np.abs(ref), np.abs(mes)
         gain = float(np.real(np.vdot(ref, mes) / np.vdot(ref, ref)))
         evm = float(np.sqrt(np.mean(np.abs(mes - ref) ** 2) / np.mean(np.abs(ref) ** 2)))
         r['sans_bruit'].update({'gain_mesure': round(gain, 4), 'evm': round(evm, 4)})
         if evm > 0.05 or abs(gain - 1) > 0.05: ECHECS.append(f'{k} : EVM {evm:.3f}, gain {gain:.3f}')
-        # meilleure phase d'échantillonnage mesurée sur la sortie du filtre adapté (oeil)
-        oe = d['oeil'][0]; ev = []
-        for p in range(SPS):
-            s = oe[p::SPS]; nn = min(len(s), len(tx) + 40) - 40
-            ev.append(min(np.mean(np.abs(s[l + 20:l + nn] - ideal[tx[20:nn].astype(int)]) ** 2) for l in range(30)))
-        r['sans_bruit']['phase_optimale'] = int(np.argmin(ev)); r['sans_bruit']['evm_par_phase_min'] = float(np.sqrt(min(ev)))
+    # phase d'échantillonnage optimale, mesurée sur le module de la sortie du filtre adapté (oeil)
+    oe = np.abs(d['oeil'][0]) if k != 'fsk2' else d['oeil'][0]; ev = []
+    refm = np.abs(ideal[tx]) if k != 'fsk2' else ideal[tx].real
+    for p in range(SPS):
+        sm = oe[p::SPS]; nn = min(len(sm), len(tx)) - 45
+        ev.append(min(np.mean(np.abs(sm[l + CONVERGENCE:l + nn] - refm[CONVERGENCE:nn]) ** 2) for l in range(40)))
+    r['sans_bruit']['phase_optimale'] = int(np.argmin(ev))
     f, P = dsp(emis); Pn = P / P.max(); r['spectre'] = {}
     if m['mise_en_forme'] == 'rrc':
         B = (1 + ALPHA) * RS / 2; frac = float(P[(f > FC - B) & (f < FC + B)].sum() / P.sum())
@@ -125,40 +148,60 @@ for k, m in MODS.items():
         r['spectre']['niveau_premiers_zeros_dB'] = [round(v, 1) for v in lv]
         if max(lv) > -20: ECHECS.append(f'{k} : zéros du spectre à {lv} dB')
     # courbe de taux d'erreur
-    r['taux'] = []
+    r['taux'] = []; tol = 2.0 if boucle else 1.5
     for e_db in m['ebn0']:
         g = 10 ** (e_db / 10); sig = float(np.sqrt(Ps * SPS / (2 * m['bits'] * g)))
         d2, info = executer(nom, 20000, sig, f'eb{e_db}')
-        tx2, dec2 = d2['symboles'][0], d2['symboles'][1]; L2 = aligner(tx2, dec2)
-        es, ns, eb, nb = erreurs(m, tx2, dec2, L2)
+        tx2, dec2 = d2['symboles'][0].astype(int), d2['symboles'][1]; L2, rot2, perm2, _ = aligner(m, tx2, dec2)
+        es, ns, eb, nb = erreurs(m, tx2, dec2, L2, perm2)
         mesure = eb / nb if m['compare'] == 'TEB' else es / ns
         nerr = eb if m['compare'] == 'TEB' else es
-        th = theorie(m, g); ok = nerr < 50 or 1 / 1.5 < mesure / th < 1.5
-        r['taux'].append({'EbN0_dB': e_db, 'ecart_type_bruit': round(sig, 5), 'TES': es / ns, 'TEB': eb / nb,
-                          'erreurs': nerr, 'mesure': mesure, 'theorie': th, 'conforme': bool(ok), 'retard': L2, **info})
+        th = theorie(m, g); ok = nerr < 50 or 1 / tol < mesure / th < tol
+        pt = {'EbN0_dB': e_db, 'ecart_type_bruit': round(sig, 5), 'TES': es / ns, 'TEB': eb / nb, 'erreurs': nerr,
+              'mesure': mesure, 'theorie': th, 'conforme': bool(ok), 'retard': L2, 'rotation_ambiguite_deg': 360.0 * rot2 / m['ordre'], **info}
+        if k == 'fsk2':
+            Ld, _, pd, _ = aligner(m, tx2, d2['symboles'][2]); pt['TEB_discriminateur'] = erreurs(m, tx2, d2['symboles'][2], Ld, pd)[2] / nb
+        r['taux'].append(pt)
         if not ok: ECHECS.append(f'{k} : Eb/N0 = {e_db} dB, mesure {mesure:.3g}, théorie {th:.3g}')
-        if e_db == m['ebn0'][2]: d_mid = d2
+        if e_db == m['ebn0'][2]: d_mid, L_mid = d2, L2
     d_eye, _ = executer(nom, 3000, float(np.sqrt(Ps * SPS / (2 * m['bits'] * 10 ** 2.0))), 'oeil20')
     # figure : signal émis, spectre, constellation, oeil
     fig, ax = plt.subplots(2, 2, figsize=(12, 8.5))
     t = np.arange(8 * SPS) / FS * 1e3; i0 = SPS * 40
     ax[0, 0].plot(t, emis[i0:i0 + 8 * SPS], lw=0.9, label='signal émis')
-    ax[0, 0].plot(t, d['scope_emis'][1][i0:i0 + 8 * SPS], lw=1.6, ls='--',
-                  label='bits NRZ' if k == 'fsk2' else 'voie I en bande de base')
+    ax[0, 0].plot(t, d['scope_emis'][1][i0:i0 + 8 * SPS], lw=1.6, ls='--', label='bits NRZ' if k == 'fsk2' else 'voie I en bande de base')
     ax[0, 0].set_xlabel('temps (ms)'); ax[0, 0].set_title(f"{m['titre']} : signal émis (scope_emis)"); ax[0, 0].legend(loc='upper right', fontsize=8)
     ax[0, 1].plot(f / 1e3, 10 * np.log10(Pn + 1e-16)); ax[0, 1].set_xlim(0, 10); ax[0, 1].set_ylim(-80, 3)
     ax[0, 1].set_xlabel('fréquence (kHz)'); ax[0, 1].set_ylabel('dB'); ax[0, 1].set_title('spectre du signal émis (spectre_emis)')
-    c = d_mid['constellation_rx'][0][50:]
+    c = d_mid['constellation_rx'][0][CONVERGENCE:]
     ax[1, 0].plot(c.real, c.imag, '.', ms=1.5, alpha=0.4, label=f"Eb/N0 = {m['ebn0'][2]} dB")
-    c0 = d['constellation_rx'][0][50:]; ax[1, 0].plot(c0.real, c0.imag, 'r+', ms=9, label='sans bruit')
+    c0 = d['constellation_rx'][0][CONVERGENCE:]; ax[1, 0].plot(c0.real, c0.imag, 'r+', ms=9, label='sans bruit')
     ax[1, 0].set_aspect('equal'); ax[1, 0].legend(loc='upper right', fontsize=8)
-    ax[1, 0].set_title('points de décision (|y1|, |y0|) (constellation_rx)' if k == 'fsk2' else 'constellation (constellation_rx)')
-    oe = d_eye['oeil'][0]; oe = oe.real if np.iscomplexobj(oe) else oe
-    ph = r['sans_bruit'].get('phase_optimale', SPS - 1)
-    for j in range(60, 260):
-        s0 = j * SPS + ph - SPS // 2
+    ax[1, 0].set_title({'enveloppe': "constellation avant détection d'enveloppe (phase inconnue)",
+                        'energie': 'points de décision (|y1|, |y0|)'}.get(m['detection'], 'constellation après la boucle') + ' (constellation_rx)', fontsize=10)
+    oe = d_eye['oeil'][0]; titre_oeil = "diagramme de l'oeil, Eb/N0 = 20 dB (oeil)"
+    if m['detection'] == 'enveloppe': oe = np.abs(oe); titre_oeil = "oeil du module, Eb/N0 = 20 dB (oeil)"
+    elif m['detection'] == 'costas':
+        Le, rote, _, rre = aligner(m, d_eye['symboles'][0].astype(int), d_eye['symboles'][1]); oe = np.real(oe * np.conj(rre))
+        titre_oeil = "oeil de la voie I après la boucle de Costas, Eb/N0 = 20 dB (oeil)"
+    elif m['detection'] == 'recepteur':
+        # l'oeil est pris avant la boucle : la voie I est corrigée par la phase estimée par la boucle (sortie 2 du récepteur)
+        oc = d_eye['oeil'][0]; ph = d_eye['boucle'][0]; p0 = r['sans_bruit']['phase_optimale']
+        jsym = (np.arange(len(oc)) - p0) // SPS; best = None
+        rots = [np.exp(2j * np.pi * q / 4) for q in range(4)]
+        for sgn in (1, -1):
+            for q in range(-20, 21):
+                z = oc * np.exp(-1j * sgn * ph[np.clip(jsym + q, 0, len(ph) - 1)])
+                sm = z[p0 + SPS * np.arange(CONVERGENCE, min(CONVERGENCE + 800, (len(z) - p0) // SPS - 1))]
+                for ro in rots:
+                    qd = np.mean(np.min(np.abs(sm[:, None] * np.conj(ro) - ideal[None, :]), 1))
+                    if best is None or qd < best[0]: best = (qd, z * np.conj(ro))
+        oe = np.real(best[1]); titre_oeil = "oeil de la voie I corrigée par la phase de la boucle, Eb/N0 = 20 dB"
+    ph0 = r['sans_bruit']['phase_optimale']
+    for j in range(CONVERGENCE + 60, CONVERGENCE + 260):
+        s0 = j * SPS + ph0 - SPS // 2
         ax[1, 1].plot(np.arange(2 * SPS + 1) / SPS - 0.5, oe[s0:s0 + 2 * SPS + 1], color='C0', lw=0.4, alpha=0.5)
-    ax[1, 1].set_xlabel('temps (symboles)'); ax[1, 1].set_title("diagramme de l'oeil, Eb/N0 = 20 dB (oeil)")
+    ax[1, 1].set_xlabel('temps (symboles)'); ax[1, 1].set_title(titre_oeil, fontsize=10)
     for a in ax.flat: a.grid(ls=':')
     fig.tight_layout(); fig.savefig(os.path.join(OUT, f'{nom}.png'), dpi=110); plt.close(fig)
     print(json.dumps(r, indent=1, default=float), flush=True)
