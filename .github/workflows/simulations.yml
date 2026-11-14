@@ -72,3 +72,20 @@ jobs:
           echo "Execution ${GITHUB_RUN_ID} du $(date -u) ; simulink=${{ needs.simulink.result }} ; gnuradio=${{ needs.gnuradio.result }}" > ETAT.txt
           git add -A && git commit -qm "Resultats de l'execution ${GITHUB_RUN_ID}"
           git push -qf "https://x-access-token:${{ secrets.GITHUB_TOKEN }}@github.com/${GITHUB_REPOSITORY}.git" resultats
+      - uses: actions/checkout@v4
+        with:
+          path: depot
+      - name: Copier les modeles Simulink et les figures dans la branche main
+        run: |
+          cd depot
+          mkdir -p Simulink/modeles Simulink/resultats GNU_Radio/resultats
+          cp ../resultats/resultats-simulink/*.slx Simulink/modeles/ 2>/dev/null || true
+          cp ../resultats/resultats-simulink/*_schema.png Simulink/modeles/ 2>/dev/null || true
+          for f in ../resultats/resultats-simulink/*; do case "$f" in *.slx|*_schema.png) ;; *) cp "$f" Simulink/resultats/ ;; esac; done
+          cp ../resultats/resultats-gnuradio/* GNU_Radio/resultats/ 2>/dev/null || true
+          cp ../resultats/ETAT.txt . 2>/dev/null || true
+          git config user.name "github-actions" && git config user.email "actions@github.com"
+          git add -A Simulink GNU_Radio ETAT.txt
+          git diff --cached --quiet && exit 0
+          git commit -qm "Resultats de l'execution ${GITHUB_RUN_ID} (modeles Simulink, schemas, figures) [skip ci]"
+          for i in 1 2 3; do git pull -q --rebase origin main && git push -q origin HEAD:main && break; sleep 5; done

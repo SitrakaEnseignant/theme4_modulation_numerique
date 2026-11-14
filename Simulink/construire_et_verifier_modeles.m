@@ -165,7 +165,7 @@ switch m.detection
         relier(mdl, 'normalisation/1', 'module/1'); relier(mdl, 'module/1', 'y/1'); relier(mdl, 'module/1', 'echantillonnage/1');
         relier(mdl, 'normalisation/1', 'echantillonnage_c/1'); relier(mdl, 'echantillonnage_c/1', 'ech/1');
         if strcmp(m.nom, 'ook')
-            ajouter(mdl, [B 'Logic and Bit Operations/Compare To Constant'], 'decision', c + 2, 3.4, 'relop', '>', 'const', '1.0', 'OutDataTypeStr', 'double');
+            ajouter(mdl, [B 'Logic and Bit Operations/Compare To Constant'], 'decision', c + 2, 3.4, 'relop', '>', 'const', '1.0');
             relier(mdl, 'echantillonnage/1', 'decision/1');
         else
             fonction(mdl, 'decision', c + 2, 3.4, code_decision());
@@ -233,7 +233,7 @@ end
 ajouter(mdl, [B 'Math Operations/Sum'], 'difference', 13, 4.6, 'Inputs', '+-');
 ajouter(mdl, [B 'Sinks/To Workspace'], 'y', 14, 3.8, 'VariableName', 'y', 'SaveFormat', 'Array');
 ajouter(mdl, [B 'Discrete/Zero-Order Hold'], 'echantillonnage', 14, 4.6, 'SampleTime', '[Ts, decalage]');
-ajouter(mdl, [B 'Logic and Bit Operations/Compare To Zero'], 'decision', 15, 4.6, 'relop', '>', 'OutDataTypeStr', 'double');
+ajouter(mdl, [B 'Logic and Bit Operations/Compare To Zero'], 'decision', 15, 4.6, 'relop', '>');
 ajouter(mdl, [B 'Sinks/To Workspace'], 'dec', 16, 4.6, 'VariableName', 'dec', 'SaveFormat', 'Array');
 ajouter(mdl, [B 'Math Operations/Real-Imag to Complex'], 'paire', 13, 6.4, 'Input', 'Real and imag');
 ajouter(mdl, [B 'Discrete/Zero-Order Hold'], 'echantillonnage_paire', 14, 6.4, 'SampleTime', '[Ts, decalage]');
@@ -253,7 +253,7 @@ ajouter(mdl, [B 'Math Operations/Complex to Magnitude-Angle'], 'argument', 15, 8
 ajouter(mdl, [B 'Math Operations/Gain'], 'discriminateur', 16, 8, 'Gain', 'fs/(2*pi*excursion)');
 ajouter(mdl, [B 'Discrete/Discrete Filter'], 'integrateur', 17, 8, 'Numerator', 'h_rx', 'Denominator', '1');
 ajouter(mdl, [B 'Discrete/Zero-Order Hold'], 'echantillonnage_d', 18, 8, 'SampleTime', '[Ts, decalage]');
-ajouter(mdl, [B 'Logic and Bit Operations/Compare To Zero'], 'decision_d', 19, 8, 'relop', '>', 'OutDataTypeStr', 'double');
+ajouter(mdl, [B 'Logic and Bit Operations/Compare To Zero'], 'decision_d', 19, 8, 'relop', '>');
 ajouter(mdl, [B 'Sinks/To Workspace'], 'dec_d', 20, 8, 'VariableName', 'dec_d', 'SaveFormat', 'Array');
 relier(mdl, 'canal/1', 'mix_rx/1'); relier(mdl, 'lo_rx/1', 'mix_rx/2'); relier(mdl, 'mix_rx/1', 'passe_bas/1');
 relier(mdl, 'passe_bas/1', 'produit/1'); relier(mdl, 'passe_bas/1', 'retard/1'); relier(mdl, 'retard/1', 'conj/1');
@@ -266,13 +266,13 @@ function r = iff(c, a, b), if c, r = a; else, r = b; end, end
 
 function c = code_decision()
 c = sprintf(['function indice = decision(x, points)\n' ...
-    '%% décision au plus proche voisin, comme le bloc Constellation Decoder de GNU Radio\n' ...
+    '%% decision au plus proche voisin, comme le bloc Constellation Decoder de GNU Radio\n' ...
     '[~, k] = min(abs(x - points));\nindice = k - 1;\nend\n']);
 end
 
 function c = code_costas()
 c = sprintf(['function [y, phase] = costas(x, ordre, w)\n' ...
-    '%% boucle de Costas, même algorithme que le bloc Costas Loop de GNU Radio 3.10\n' ...
+    '%% boucle de Costas, meme algorithme que le bloc Costas Loop de GNU Radio 3.10\n' ...
     'persistent ph fr\nif isempty(ph), ph = 0; fr = 0; end\n' ...
     'z = sqrt(2) / 2; den = 1 + 2 * z * w + w * w; a = 4 * z * w / den; b = 4 * w * w / den;\n' ...
     'y = x * exp(-1j * ph); r = real(y); q = imag(y); K = sqrt(2) - 1;\n' ...
@@ -285,8 +285,8 @@ end
 
 function c = code_recepteur()
 c = sprintf(['function [indice, y, phase] = recepteur(x, points, w)\n' ...
-    '%% récepteur de constellation : boucle de phase pilotée par les décisions, comme le bloc\n' ...
-    '%% Constellation Receiver de GNU Radio (erreur = angle entre l''échantillon et le point décidé)\n' ...
+    '%% recepteur de constellation : boucle de phase pilotee par les decisions, comme le bloc\n' ...
+    '%% Constellation Receiver de GNU Radio (erreur = angle entre l''echantillon et le point decide)\n' ...
     'persistent ph fr\nif isempty(ph), ph = 0; fr = 0; end\n' ...
     'z = sqrt(2) / 2; den = 1 + 2 * z * w + w * w; a = 4 * z * w / den; b = 4 * w * w / den;\n' ...
     'y = x * exp(-1j * ph); [~, k] = min(abs(y - points)); e = angle(y * conj(points(k)));\n' ...
@@ -318,6 +318,8 @@ for i = 0:ntaps - 1
     end
     h(i + 1) = 4 * alpha * num / den;
 end
+h = h * gain / sum(h);
+end
 
 %% ------------------------------------------------------------------ exécution et mesures
 function so = simuler(mdl, nsym, sigma2, P)
@@ -347,11 +349,20 @@ for p = perms_ambiguite(m)
 end
 end
 
-function [es, ns, eb, nb] = compter(m, sym, dec, A, P)
-n = min(numel(sym), numel(dec) - A.L) - 5; a = sym(P.conv + 1:n); b = dec(P.conv + 1 + A.L:n + A.L);
-inv = zeros(1, m.M); inv(A.perm + 1) = 0:m.M - 1; bb = inv(b + 1);
-es = sum(a ~= bb); ns = numel(a); x = bitxor(m.lab(a + 1), m.lab(bb + 1)); eb = 0;
-for v = x, eb = eb + sum(dec2bin(v) == '1'); end
+function [es, ns, eb, nb, gl] = compter(m, sym, dec, A, P)
+% erreurs comptées après l'accrochage ; avec une boucle, les 100 premiers symboles de chaque bloc de 1000
+% sont connus (pilotes) et lèvent l'ambiguïté du bloc après un éventuel glissement de cycle
+n = min(numel(sym), numel(dec) - A.L) - 5; aa = sym(P.conv + 1:n); ba = dec(P.conv + 1 + A.L:n + A.L);
+if m.ordre > 1, pp = perms_ambiguite(m); else, pp = struct('perm', A.perm); end
+es = 0; ns = 0; eb = 0; gl = 0; prec = 0; BLOC = 1000; PIL = 100;
+for i = 1:BLOC:numel(aa) - BLOC + 1
+    a = aa(i:i + BLOC - 1); b = ba(i:i + BLOC - 1); sc = zeros(1, numel(pp));
+    for j = 1:numel(pp), sc(j) = mean(pp(j).perm(a(1:PIL) + 1) == b(1:PIL)); end
+    [~, j] = max(sc); if prec > 0 && j ~= prec, gl = gl + 1; end, prec = j;
+    inv = zeros(1, m.M); inv(pp(j).perm + 1) = 0:m.M - 1; bb = inv(b(PIL + 1:end) + 1); a = a(PIL + 1:end);
+    es = es + sum(a ~= bb); ns = ns + numel(a); x = bitxor(m.lab(a + 1), m.lab(bb + 1));
+    for v = x, eb = eb + sum(dec2bin(v) == '1'); end
+end
 nb = ns * m.bits;
 end
 
@@ -431,18 +442,18 @@ else
     if max(lv) > -20, echecs{end + 1} = sprintf('%s : zeros du spectre a %.1f dB', m.nom, max(lv)); end
 end
 tol = 1.5; if boucle, tol = 2; end
-taux = struct('EbN0_dB', {}, 'variance_bruit', {}, 'TES', {}, 'TEB', {}, 'erreurs', {}, 'mesure', {}, 'theorie', {}, 'conforme', {}, 'TEB_discriminateur', {});
+taux = struct('EbN0_dB', {}, 'variance_bruit', {}, 'TES', {}, 'TEB', {}, 'erreurs', {}, 'mesure', {}, 'theorie', {}, 'conforme', {}, 'TEB_discriminateur', {}, 'glissements_de_cycle', {});
 for e = m.ebn0
     g = 10 ^ (e / 10); s2 = Ps * P.sps / (2 * m.bits * g);
     so2 = simuler(mdl, 16000, s2, P); sym2 = round(lire(so2, 'sym')); dec2 = round(double(lire(so2, 'dec')));
-    A2 = aligner(m, sym2, dec2, P); [es, ns, eb, nb] = compter(m, sym2, dec2, A2, P);
+    A2 = aligner(m, sym2, dec2, P); [es, ns, eb, nb, gl] = compter(m, sym2, dec2, A2, P);
     if strcmp(m.compare, 'TEB'), mes = eb / nb; ne = eb; else, mes = es / ns; ne = es; end
     th = theorie(m, g); ok = ne < 50 || (mes / th > 1 / tol && mes / th < tol); td = NaN;
     if strcmp(m.nom, 'fsk2')
         dd = round(double(lire(so2, 'dec_d'))); Ad = aligner(m, sym2, dd, P); [~, ~, ebd, nbd] = compter(m, sym2, dd, Ad, P); td = ebd / nbd;
     end
     taux(end + 1) = struct('EbN0_dB', e, 'variance_bruit', s2, 'TES', es / ns, 'TEB', eb / nb, 'erreurs', ne, ...
-        'mesure', mes, 'theorie', th, 'conforme', ok, 'TEB_discriminateur', td); %#ok<AGROW>
+        'mesure', mes, 'theorie', th, 'conforme', ok, 'TEB_discriminateur', td, 'glissements_de_cycle', gl); %#ok<AGROW>
     fprintf('Eb/N0 = %4.1f dB : %s mesure %.3e (%d erreurs), theorie %.3e  %s\n', e, m.compare, mes, ne, th, string(ok));
     if ~ok, echecs{end + 1} = sprintf('%s : Eb/N0 %g dB, mesure %.3g, theorie %.3g', m.nom, e, mes, th); end %#ok<AGROW>
     if e == m.ebn0(3), xmid = lire(so2, 'ech'); end

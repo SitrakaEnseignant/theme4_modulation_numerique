@@ -79,14 +79,30 @@ def aligner(m, tx, dec, maxlag=60):
     return best[1], best[2], best[3], best[4]
 
 
+BLOC, PILOTES = 1000, 100
+
+
 def erreurs(m, tx, dec, L, perm):
-    tx = tx.astype(int); dec = dec.astype(int)
+    """Erreurs comptées après l'accrochage. Avec une boucle (Costas ou récepteur de constellation), un
+    glissement de cycle fait tourner la constellation d'un multiple de 2 pi / ordre : comme avec des
+    pilotes répartis dans la trame, les 100 premiers symboles de chaque bloc de 1000 sont connus et
+    servent à lever l'ambiguïté du bloc ; les erreurs sont comptées sur les 900 symboles suivants.
+    Renvoie aussi le nombre de glissements de cycle détectés."""
+    tx = tx.astype(int); dec = dec.astype(int); lab = np.array(m['lab'])
     n = min(len(tx), len(dec) - L) - 5
-    a, b = tx[CONVERGENCE:n], dec[CONVERGENCE + L:n + L]
-    inv = np.argsort(perm); bb = inv[b]
-    lab = np.array(m['lab'])
-    nb = int(sum(bin(int(x)).count('1') for x in (lab[a] ^ lab[bb])))
-    return int(np.sum(a != bb)), len(a), nb, len(a) * m['bits']
+    a_all, b_all = tx[CONVERGENCE:n], dec[CONVERGENCE + L:n + L]
+    perms = [p for _, p, _ in permutations(m)] if m['ordre'] > 1 else [perm]
+    es = ns = eb = 0; glissements = 0; prec = None
+    for i in range(0, len(a_all) - BLOC + 1, BLOC):
+        a, b = a_all[i:i + BLOC], b_all[i:i + BLOC]
+        j = int(np.argmax([np.mean(p[a[:PILOTES]] == b[:PILOTES]) for p in perms]))
+        if prec is not None and j != prec: glissements += 1
+        prec = j
+        inv = np.argsort(perms[j]); bb = inv[b[PILOTES:]]; aa = a[PILOTES:]
+        es += int(np.sum(aa != bb)); ns += len(aa)
+        eb += int(sum(bin(int(x)).count('1') for x in (lab[aa] ^ lab[bb])))
+    erreurs.glissements = glissements
+    return es, ns, eb, ns * m['bits']
 
 
 def theorie(m, g):
@@ -153,12 +169,12 @@ for k, m in MODS.items():
         g = 10 ** (e_db / 10); sig = float(np.sqrt(Ps * SPS / (2 * m['bits'] * g)))
         d2, info = executer(nom, 20000, sig, f'eb{e_db}')
         tx2, dec2 = d2['symboles'][0].astype(int), d2['symboles'][1]; L2, rot2, perm2, _ = aligner(m, tx2, dec2)
-        es, ns, eb, nb = erreurs(m, tx2, dec2, L2, perm2)
+        es, ns, eb, nb = erreurs(m, tx2, dec2, L2, perm2); gl = erreurs.glissements
         mesure = eb / nb if m['compare'] == 'TEB' else es / ns
         nerr = eb if m['compare'] == 'TEB' else es
         th = theorie(m, g); ok = nerr < 50 or 1 / tol < mesure / th < tol
         pt = {'EbN0_dB': e_db, 'ecart_type_bruit': round(sig, 5), 'TES': es / ns, 'TEB': eb / nb, 'erreurs': nerr,
-              'mesure': mesure, 'theorie': th, 'conforme': bool(ok), 'retard': L2, 'rotation_ambiguite_deg': 360.0 * rot2 / m['ordre'], **info}
+              'mesure': mesure, 'theorie': th, 'conforme': bool(ok), 'retard': L2, 'rotation_ambiguite_deg': 360.0 * rot2 / m['ordre'], 'glissements_de_cycle': gl, **info}
         if k == 'fsk2':
             Ld, _, pd, _ = aligner(m, tx2, d2['symboles'][2]); pt['TEB_discriminateur'] = erreurs(m, tx2, d2['symboles'][2], Ld, pd)[2] / nb
         r['taux'].append(pt)
