@@ -295,7 +295,7 @@ r.sans_bruit = struct('phase_echantillonnage', cal.off, 'retard_symboles', cal.L
 fprintf('Sans bruit : phase %d, retard %d symboles, gain %.4f, EVM %.4f, %d erreurs sur %d symboles\n', cal.off, cal.L, cal.gain, cal.evm, es, ns);
 if es > 0, echecs{end + 1} = sprintf('%s : %d erreurs sans bruit', m.nom, es); end
 if cal.evm > 0.05, echecs{end + 1} = sprintf('%s : EVM %.3f', m.nom, cal.evm); end
-[f, Pn] = densite(s, P.fs); x0 = x; bb = so.get('bb'); bb = bb(:).';
+[f, Pn] = densite(s, P.fs); x0 = x(21 + cal.L:end - 20); bb = so.get('bb'); bb = bb(:).';
 if strcmp(m.forme, 'rrc')
     B = (1 + P.alpha) * P.Rs / 2; frac = sum(Pn(f > P.fc - B & f < P.fc + B)) / sum(Pn);
     r.spectre = struct('part_puissance_bande', frac); fprintf('Spectre : %.4f de la puissance entre %g et %g Hz\n', frac, P.fc - B, P.fc + B);
@@ -337,7 +337,7 @@ if strcmp(m.nom, 'fsk2')
     y1 = so.get('y1'); y0 = so.get('y0'); plot(y1(cal.off + 1:P.sps:end) / cal.gain, y0(cal.off + 1:P.sps:end) / cal.gain, '.', 'MarkerSize', 4);
     xlabel('|y_1|'); ylabel('|y_0|'); title('points de decision (|y_1|, |y_0|), Eb/N0 = 20 dB');
 else
-    plot(real(xmid), imag(xmid), '.', 'MarkerSize', 3); hold on; plot(real(x0 / cal.gain), imag(x0 / cal.gain), 'r+', 'MarkerSize', 9);
+    plot(real(xmid), imag(xmid), '.', 'MarkerSize', 3); hold on; plot(real(x0 / cal.gain), imag(x0 / cal.gain), 'r+', 'MarkerSize', 14, 'LineWidth', 2);
     axis equal; title(sprintf('constellation, Eb/N0 = %g dB (points) et sans bruit (+)', m.ebn0(3)));
 end
 grid on;
