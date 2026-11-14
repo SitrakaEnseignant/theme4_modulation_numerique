@@ -1,0 +1,707 @@
+===== ook_tx_rx_sim
+vmcircbuf_prefs::get :info: /home/runner/.gnuradio/prefs/vmcircbuf_default_factory failed to open: bad true, fail true, eof true
+{
+ "titre": "OOK (tout ou rien)",
+ "execution_sans_bruit": {
+  "duree_s": 0.05,
+  "fin_naturelle": true
+ },
+ "puissance_signal": 0.24472361390218597,
+ "sans_bruit": {
+  "retard_symboles": 0,
+  "rotation_ambiguite_deg": 0.0,
+  "erreurs_symboles": 0,
+  "symboles": 2700,
+  "gain_mesure": 1.0001,
+  "evm": 0.0001,
+  "phase_optimale": 31
+ },
+ "spectre": {
+  "niveau_premiers_zeros_dB": [
+   -54.8,
+   -53.1
+  ]
+ },
+ "taux": [
+  {
+   "EbN0_dB": 6,
+   "ecart_type_bruit": 0.99174,
+   "TES": 0.06900584795321638,
+   "TEB": 0.06900584795321638,
+   "erreurs": 1180,
+   "mesure": 0.06900584795321638,
+   "theorie": 0.0757532371326834,
+   "conforme": true,
+   "retard": 0,
+   "rotation_ambiguite_deg": 0.0,
+   "glissements_de_cycle": 0,
+   "duree_s": 0.14,
+   "fin_naturelle": true
+  },
+  {
+   "EbN0_dB": 8,
+   "ecart_type_bruit": 0.78777,
+   "TES": 0.022631578947368423,
+   "TEB": 0.022631578947368423,
+   "erreurs": 387,
+   "mesure": 0.022631578947368423,
+   "theorie": 0.02332475367723824,
+   "conforme": true,
+   "retard": 0,
+   "rotation_ambiguite_deg": 0.0,
+   "glissements_de_cycle": 0,
+   "duree_s": 0.13,
+   "fin_naturelle": true
+  },
+  {
+   "EbN0_dB": 10,
+   "ecart_type_bruit": 0.62575,
+   "TES": 0.0029239766081871343,
+   "TEB": 0.0029239766081871343,
+   "erreurs": 50,
+   "mesure": 0.0029239766081871343,
+   "theorie": 0.003635119219033367,
+   "conforme": true,
+   "retard": 0,
+   "rotation_ambiguite_deg": 0.0,
+   "glissements_de_cycle": 0,
+   "duree_s": 0.13,
+   "fin_naturelle": true
+  },
+  {
+   "EbN0_dB": 12,
+   "ecart_type_bruit": 0.49705,
+   "TES": 0.00029239766081871346,
+   "TEB": 0.00029239766081871346,
+   "erreurs": 5,
+   "mesure": 0.00029239766081871346,
+   "theorie": 0.00019271434459061654,
+   "conforme": true,
+   "retard": 0,
+   "rotation_ambiguite_deg": 0.0,
+   "glissements_de_cycle": 0,
+   "duree_s": 0.14,
+   "fin_naturelle": true
+  },
+  {
+   "EbN0_dB": 14,
+   "ecart_type_bruit": 0.39482,
+   "TES": 0.0,
+   "TEB": 0.0,
+   "erreurs": 0,
+   "mesure": 0.0,
+   "theorie": 1.8495411773233883e-06,
+   "conforme": true,
+   "retard": 0,
+   "rotation_ambiguite_deg": 0.0,
+   "glissements_de_cycle": 0,
+   "duree_s": 0.13,
+   "fin_naturelle": true
+  }
+ ]
+}
+===== ask4_tx_rx_sim
+{
+ "titre": "ASK \u00e0 4 niveaux",
+ "execution_sans_bruit": {
+  "duree_s": 0.03,
+  "fin_naturelle": true
+ },
+ "puissance_signal": 0.18746510361540764,
+ "sans_bruit": {
+  "retard_symboles": 0,
+  "rotation_ambiguite_deg": 0.0,
+  "erreurs_symboles": 0,
+  "symboles": 2700,
+  "gain_mesure": 1.0001,
+  "evm": 0.0001,
+  "phase_optimale": 31
+ },
+ "spectre": {
+  "niveau_premiers_zeros_dB": [
+   -57.4,
+   -55.7
+  ]
+ },
+ "taux": [
+  {
+   "EbN0_dB": 10,
+   "ecart_type_bruit": 0.38726,
+   "TES": 0.10947368421052632,
+   "TEB": 0.05473684210526316,
+   "erreurs": 1872,
+   "mesure": 0.10947368421052632,
+   "theorie": 0.11427636294582091,
+   "conforme": true,
+   "retard": 0,
+   "rotation_ambiguite_deg": 0.0,
+   "glissements_de_cycle": 0,
+   "duree_s": 0.13,
+   "fin_naturelle": true
+  },
+  {
+   "EbN0_dB": 12,
+   "ecart_type_bruit": 0.30761,
+   "TES": 0.04228070175438597,
+   "TEB": 0.021140350877192984,
+   "erreurs": 723,
+   "mesure": 0.04228070175438597,
+   "theorie": 0.0459686353970431,
+   "conforme": true,
+   "retard": 0,
+   "rotation_ambiguite_deg": 0.0,
+   "glissements_de_cycle": 0,
+   "duree_s": 0.13,
+   "fin_naturelle": true
+  },
+  {
+   "EbN0_dB": 14,
+   "ecart_type_bruit": 0.24435,
+   "TES": 0.010409356725146198,
+   "TEB": 0.005204678362573099,
+   "erreurs": 178,
+   "mesure": 0.010409356725146198,
+   "theorie": 0.011348207432355428,
+   "conforme": true,
+   "retard": 0,
+   "rotation_ambiguite_deg": 0.0,
+   "glissements_de_cycle": 0,
+   "duree_s": 0.14,
+   "fin_naturelle": true
+  },
+  {
+   "EbN0_dB": 16,
+   "ecart_type_bruit": 0.19409,
+   "TES": 0.0011695906432748538,
+   "TEB": 0.0005847953216374269,
+   "erreurs": 20,
+   "mesure": 0.0011695906432748538,
+   "theorie": 0.0012953290534456763,
+   "conforme": true,
+   "retard": 0,
+   "rotation_ambiguite_deg": 0.0,
+   "glissements_de_cycle": 0,
+   "duree_s": 0.14,
+   "fin_naturelle": true
+  },
+  {
+   "EbN0_dB": 18,
+   "ecart_type_bruit": 0.15417,
+   "TES": 0.00011695906432748539,
+   "TEB": 5.847953216374269e-05,
+   "erreurs": 2,
+   "mesure": 0.00011695906432748539,
+   "theorie": 4.355135368139251e-05,
+   "conforme": true,
+   "retard": 0,
+   "rotation_ambiguite_deg": 0.0,
+   "glissements_de_cycle": 0,
+   "duree_s": 0.13,
+   "fin_naturelle": true
+  }
+ ]
+}
+===== bpsk_tx_rx_sim
+{
+ "titre": "BPSK",
+ "execution_sans_bruit": {
+  "duree_s": 0.03,
+  "fin_naturelle": true
+ },
+ "puissance_signal": 0.49999999144286456,
+ "sans_bruit": {
+  "retard_symboles": 0,
+  "rotation_ambiguite_deg": 0.0,
+  "erreurs_symboles": 0,
+  "symboles": 2700,
+  "gain_mesure": 1.0001,
+  "evm": 0.0017,
+  "phase_optimale": 31
+ },
+ "spectre": {
+  "niveau_premiers_zeros_dB": [
+   -36.9,
+   -35.2
+  ]
+ },
+ "taux": [
+  {
+   "EbN0_dB": 0,
+   "ecart_type_bruit": 2.82843,
+   "TES": 0.08216374269005848,
+   "TEB": 0.08216374269005848,
+   "erreurs": 1405,
+   "mesure": 0.08216374269005848,
+   "theorie": 0.07864960352514265,
+   "conforme": true,
+   "retard": 0,
+   "rotation_ambiguite_deg": 0.0,
+   "glissements_de_cycle": 0,
+   "duree_s": 0.16,
+   "fin_naturelle": true
+  },
+  {
+   "EbN0_dB": 2,
+   "ecart_type_bruit": 2.2467,
+   "TES": 0.038128654970760234,
+   "TEB": 0.038128654970760234,
+   "erreurs": 652,
+   "mesure": 0.038128654970760234,
+   "theorie": 0.03750612835892598,
+   "conforme": true,
+   "retard": 0,
+   "rotation_ambiguite_deg": 0.0,
+   "glissements_de_cycle": 0,
+   "duree_s": 0.15,
+   "fin_naturelle": true
+  },
+  {
+   "EbN0_dB": 4,
+   "ecart_type_bruit": 1.78462,
+   "TES": 0.012456140350877193,
+   "TEB": 0.012456140350877193,
+   "erreurs": 213,
+   "mesure": 0.012456140350877193,
+   "theorie": 0.012500818040729346,
+   "conforme": true,
+   "retard": 0,
+   "rotation_ambiguite_deg": 0.0,
+   "glissements_de_cycle": 0,
+   "duree_s": 0.14,
+   "fin_naturelle": true
+  },
+  {
+   "EbN0_dB": 6,
+   "ecart_type_bruit": 1.41757,
+   "TES": 0.0035087719298245615,
+   "TEB": 0.0035087719298245615,
+   "erreurs": 60,
+   "mesure": 0.0035087719298245615,
+   "theorie": 0.0023882907809328474,
+   "conforme": true,
+   "retard": 0,
+   "rotation_ambiguite_deg": 0.0,
+   "glissements_de_cycle": 0,
+   "duree_s": 0.14,
+   "fin_naturelle": true
+  },
+  {
+   "EbN0_dB": 8,
+   "ecart_type_bruit": 1.12602,
+   "TES": 0.00011695906432748539,
+   "TEB": 0.00011695906432748539,
+   "erreurs": 2,
+   "mesure": 0.00011695906432748539,
+   "theorie": 0.00019090777407599317,
+   "conforme": true,
+   "retard": 0,
+   "rotation_ambiguite_deg": 0.0,
+   "glissements_de_cycle": 0,
+   "duree_s": 0.14,
+   "fin_naturelle": true
+  }
+ ]
+}
+===== qpsk_tx_rx_sim
+{
+ "titre": "QPSK",
+ "execution_sans_bruit": {
+  "duree_s": 0.03,
+  "fin_naturelle": true
+ },
+ "puissance_signal": 0.49999996164054306,
+ "sans_bruit": {
+  "retard_symboles": 0,
+  "rotation_ambiguite_deg": 0.0,
+  "erreurs_symboles": 0,
+  "symboles": 2700,
+  "gain_mesure": 0.9998,
+  "evm": 0.0175,
+  "phase_optimale": 31
+ },
+ "spectre": {
+  "niveau_premiers_zeros_dB": [
+   -37.5,
+   -37.1
+  ]
+ },
+ "taux": [
+  {
+   "EbN0_dB": 0,
+   "ecart_type_bruit": 2.0,
+   "TES": 0.27187134502923976,
+   "TEB": 0.1597953216374269,
+   "erreurs": 4649,
+   "mesure": 0.27187134502923976,
+   "theorie": 0.15111344691562303,
+   "conforme": true,
+   "retard": 0,
+   "rotation_ambiguite_deg": 180.0,
+   "glissements_de_cycle": 3,
+   "duree_s": 0.15,
+   "fin_naturelle": true
+  },
+  {
+   "EbN0_dB": 2,
+   "ecart_type_bruit": 1.58866,
+   "TES": 0.08590643274853801,
+   "TEB": 0.0435672514619883,
+   "erreurs": 1469,
+   "mesure": 0.08590643274853801,
+   "theorie": 0.07360554705337964,
+   "conforme": true,
+   "retard": 0,
+   "rotation_ambiguite_deg": 270.0,
+   "glissements_de_cycle": 0,
+   "duree_s": 0.15,
+   "fin_naturelle": true
+  },
+  {
+   "EbN0_dB": 4,
+   "ecart_type_bruit": 1.26191,
+   "TES": 0.024385964912280702,
+   "TEB": 0.012222222222222223,
+   "erreurs": 417,
+   "mesure": 0.024385964912280702,
+   "theorie": 0.024845365629787546,
+   "conforme": true,
+   "retard": 0,
+   "rotation_ambiguite_deg": 270.0,
+   "glissements_de_cycle": 0,
+   "duree_s": 0.14,
+   "fin_naturelle": true
+  },
+  {
+   "EbN0_dB": 6,
+   "ecart_type_bruit": 1.00237,
+   "TES": 0.005847953216374269,
+   "TEB": 0.0029239766081871343,
+   "erreurs": 100,
+   "mesure": 0.005847953216374269,
+   "theorie": 0.004770877629011331,
+   "conforme": true,
+   "retard": 0,
+   "rotation_ambiguite_deg": 0.0,
+   "glissements_de_cycle": 0,
+   "duree_s": 0.15,
+   "fin_naturelle": true
+  },
+  {
+   "EbN0_dB": 8,
+   "ecart_type_bruit": 0.79621,
+   "TES": 0.0003508771929824561,
+   "TEB": 0.00017543859649122806,
+   "erreurs": 6,
+   "mesure": 0.0003508771929824561,
+   "theorie": 0.0003817791023751044,
+   "conforme": true,
+   "retard": 0,
+   "rotation_ambiguite_deg": 270.0,
+   "glissements_de_cycle": 0,
+   "duree_s": 0.14,
+   "fin_naturelle": true
+  }
+ ]
+}
+===== psk8_tx_rx_sim
+{
+ "titre": "8-PSK",
+ "execution_sans_bruit": {
+  "duree_s": 0.04,
+  "fin_naturelle": true
+ },
+ "puissance_signal": 0.49648101196580097,
+ "sans_bruit": {
+  "retard_symboles": 10,
+  "rotation_ambiguite_deg": 315.0,
+  "erreurs_symboles": 0,
+  "symboles": 2700,
+  "gain_mesure": 0.9999,
+  "evm": 0.0153,
+  "phase_optimale": 0
+ },
+ "spectre": {
+  "part_puissance_bande": 1.0
+ },
+ "taux": [
+  {
+   "EbN0_dB": 4,
+   "ecart_type_bruit": 1.02672,
+   "TES": 0.7598830409356725,
+   "TEB": 0.40682261208577,
+   "erreurs": 12994,
+   "mesure": 0.7598830409356725,
+   "theorie": 0.1373689037564243,
+   "conforme": false,
+   "retard": 10,
+   "rotation_ambiguite_deg": 135.0,
+   "glissements_de_cycle": 15,
+   "duree_s": 0.16,
+   "fin_naturelle": true
+  },
+  {
+   "EbN0_dB": 6,
+   "ecart_type_bruit": 0.81555,
+   "TES": 0.2439766081871345,
+   "TEB": 0.13038986354775828,
+   "erreurs": 4172,
+   "mesure": 0.2439766081871345,
+   "theorie": 0.061439739725111665,
+   "conforme": false,
+   "retard": 10,
+   "rotation_ambiguite_deg": 135.0,
+   "glissements_de_cycle": 4,
+   "duree_s": 0.17,
+   "fin_naturelle": true
+  },
+  {
+   "EbN0_dB": 8,
+   "ecart_type_bruit": 0.64781,
+   "TES": 0.07526315789473684,
+   "TEB": 0.03925925925925926,
+   "erreurs": 1287,
+   "mesure": 0.07526315789473684,
+   "theorie": 0.01854315523264981,
+   "conforme": false,
+   "retard": 10,
+   "rotation_ambiguite_deg": 180.0,
+   "glissements_de_cycle": 1,
+   "duree_s": 0.16,
+   "fin_naturelle": true
+  },
+  {
+   "EbN0_dB": 10,
+   "ecart_type_bruit": 0.51458,
+   "TES": 0.0037426900584795323,
+   "TEB": 0.0012475633528265108,
+   "erreurs": 64,
+   "mesure": 0.0037426900584795323,
+   "theorie": 0.0030341859621390043,
+   "conforme": true,
+   "retard": 10,
+   "rotation_ambiguite_deg": 315.0,
+   "glissements_de_cycle": 0,
+   "duree_s": 0.16,
+   "fin_naturelle": true
+  },
+  {
+   "EbN0_dB": 12,
+   "ecart_type_bruit": 0.40874,
+   "TES": 0.00011695906432748539,
+   "TEB": 3.898635477582846e-05,
+   "erreurs": 2,
+   "mesure": 0.00011695906432748539,
+   "theorie": 0.00019013636469495098,
+   "conforme": true,
+   "retard": 10,
+   "rotation_ambiguite_deg": 315.0,
+   "glissements_de_cycle": 0,
+   "duree_s": 0.16,
+   "fin_naturelle": true
+  }
+ ]
+}
+===== qam16_tx_rx_sim
+{
+ "titre": "16-QAM",
+ "execution_sans_bruit": {
+  "duree_s": 0.03,
+  "fin_naturelle": true
+ },
+ "puissance_signal": 0.5470080592296823,
+ "sans_bruit": {
+  "retard_symboles": 10,
+  "rotation_ambiguite_deg": 0.0,
+  "erreurs_symboles": 0,
+  "symboles": 2700,
+  "gain_mesure": 1.0001,
+  "evm": 0.0048,
+  "phase_optimale": 0
+ },
+ "spectre": {
+  "part_puissance_bande": 1.0
+ },
+ "taux": [
+  {
+   "EbN0_dB": 4,
+   "ecart_type_bruit": 0.93331,
+   "TES": 0.7954385964912281,
+   "TEB": 0.36814327485380116,
+   "erreurs": 13602,
+   "mesure": 0.7954385964912281,
+   "theorie": 0.2207293354761536,
+   "conforme": false,
+   "retard": 10,
+   "rotation_ambiguite_deg": 270.0,
+   "glissements_de_cycle": 14,
+   "duree_s": 0.16,
+   "fin_naturelle": true
+  },
+  {
+   "EbN0_dB": 6,
+   "ecart_type_bruit": 0.74136,
+   "TES": 0.1295906432748538,
+   "TEB": 0.03330409356725146,
+   "erreurs": 2216,
+   "mesure": 0.1295906432748538,
+   "theorie": 0.10837798641478547,
+   "conforme": true,
+   "retard": 10,
+   "rotation_ambiguite_deg": 270.0,
+   "glissements_de_cycle": 0,
+   "duree_s": 0.16,
+   "fin_naturelle": true
+  },
+  {
+   "EbN0_dB": 8,
+   "ecart_type_bruit": 0.58888,
+   "TES": 0.041695906432748536,
+   "TEB": 0.010482456140350878,
+   "erreurs": 713,
+   "mesure": 0.041695906432748536,
+   "theorie": 0.03664681110244028,
+   "conforme": true,
+   "retard": 10,
+   "rotation_ambiguite_deg": 270.0,
+   "glissements_de_cycle": 0,
+   "duree_s": 0.16,
+   "fin_naturelle": true
+  },
+  {
+   "EbN0_dB": 10,
+   "ecart_type_bruit": 0.46776,
+   "TES": 0.007953216374269005,
+   "TEB": 0.0019883040935672514,
+   "erreurs": 136,
+   "mesure": 0.007953216374269005,
+   "theorie": 0.0070042942940099495,
+   "conforme": true,
+   "retard": 10,
+   "rotation_ambiguite_deg": 270.0,
+   "glissements_de_cycle": 0,
+   "duree_s": 0.15,
+   "fin_naturelle": true
+  },
+  {
+   "EbN0_dB": 12,
+   "ecart_type_bruit": 0.37156,
+   "TES": 0.0005847953216374269,
+   "TEB": 0.00014619883040935673,
+   "erreurs": 10,
+   "mesure": 0.0005847953216374269,
+   "theorie": 0.0005545578503225457,
+   "conforme": true,
+   "retard": 10,
+   "rotation_ambiguite_deg": 270.0,
+   "glissements_de_cycle": 0,
+   "duree_s": 0.16,
+   "fin_naturelle": true
+  }
+ ]
+}
+===== fsk2_tx_rx_sim
+{
+ "titre": "FSK binaire",
+ "execution_sans_bruit": {
+  "duree_s": 0.04,
+  "fin_naturelle": true
+ },
+ "puissance_signal": 0.4999971137747102,
+ "sans_bruit": {
+  "retard_symboles": 0,
+  "rotation_ambiguite_deg": 0.0,
+  "erreurs_symboles": 0,
+  "symboles": 2700,
+  "erreurs_discriminateur": 0,
+  "phase_optimale": 31
+ },
+ "spectre": {
+  "raies_Hz": [
+   3000.0,
+   5000.0
+  ]
+ },
+ "taux": [
+  {
+   "EbN0_dB": 4,
+   "ecart_type_bruit": 1.78461,
+   "TES": 0.14777777777777779,
+   "TEB": 0.14777777777777779,
+   "erreurs": 2527,
+   "mesure": 0.14777777777777779,
+   "theorie": 0.1424035434814758,
+   "conforme": true,
+   "retard": 0,
+   "rotation_ambiguite_deg": 0.0,
+   "glissements_de_cycle": 0,
+   "duree_s": 0.2,
+   "fin_naturelle": true,
+   "TEB_discriminateur": 0.3381286549707602
+  },
+  {
+   "EbN0_dB": 6,
+   "ecart_type_bruit": 1.41757,
+   "TES": 0.0687719298245614,
+   "TEB": 0.0687719298245614,
+   "erreurs": 1176,
+   "mesure": 0.0687719298245614,
+   "theorie": 0.06831109822261483,
+   "conforme": true,
+   "retard": 0,
+   "rotation_ambiguite_deg": 0.0,
+   "glissements_de_cycle": 0,
+   "duree_s": 0.19,
+   "fin_naturelle": true,
+   "TEB_discriminateur": 0.2692982456140351
+  },
+  {
+   "EbN0_dB": 8,
+   "ecart_type_bruit": 1.12601,
+   "TES": 0.022631578947368423,
+   "TEB": 0.022631578947368423,
+   "erreurs": 387,
+   "mesure": 0.022631578947368423,
+   "theorie": 0.021323747889132938,
+   "conforme": true,
+   "retard": 0,
+   "rotation_ambiguite_deg": 0.0,
+   "glissements_de_cycle": 0,
+   "duree_s": 0.2,
+   "fin_naturelle": true,
+   "TEB_discriminateur": 0.18216374269005847
+  },
+  {
+   "EbN0_dB": 10,
+   "ecart_type_bruit": 0.89442,
+   "TES": 0.0030409356725146198,
+   "TEB": 0.0030409356725146198,
+   "erreurs": 52,
+   "mesure": 0.0030409356725146198,
+   "theorie": 0.0033689734995427335,
+   "conforme": true,
+   "retard": 0,
+   "rotation_ambiguite_deg": 0.0,
+   "glissements_de_cycle": 0,
+   "duree_s": 0.19,
+   "fin_naturelle": true,
+   "TEB_discriminateur": 0.09619883040935673
+  },
+  {
+   "EbN0_dB": 12,
+   "ecart_type_bruit": 0.71047,
+   "TES": 0.00011695906432748539,
+   "TEB": 0.00011695906432748539,
+   "erreurs": 2,
+   "mesure": 0.00011695906432748539,
+   "theorie": 0.00018089150200558809,
+   "conforme": true,
+   "retard": 0,
+   "rotation_ambiguite_deg": 0.0,
+   "glissements_de_cycle": 0,
+   "duree_s": 0.2,
+   "fin_naturelle": true,
+   "TEB_discriminateur": 0.035263157894736843
+  }
+ ]
+}
+ECHECS : ['psk8 : Eb/N0 = 4 dB, mesure 0.76, théorie 0.137', 'psk8 : Eb/N0 = 6 dB, mesure 0.244, théorie 0.0614', 'psk8 : Eb/N0 = 8 dB, mesure 0.0753, théorie 0.0185', 'qam16 : Eb/N0 = 4 dB, mesure 0.795, théorie 0.221']
