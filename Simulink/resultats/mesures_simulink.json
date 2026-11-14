@@ -27,7 +27,8 @@
         "theorie": 0.07575323713268528,
         "conforme": true,
         "TEB_discriminateur": null,
-        "glissements_de_cycle": 0
+        "glissements_de_cycle": 0,
+        "hors_accrochage": false
       },
       {
         "EbN0_dB": 8,
@@ -39,7 +40,8 @@
         "theorie": 0.023324753677238019,
         "conforme": true,
         "TEB_discriminateur": null,
-        "glissements_de_cycle": 0
+        "glissements_de_cycle": 0,
+        "hors_accrochage": false
       },
       {
         "EbN0_dB": 10,
@@ -51,7 +53,8 @@
         "theorie": 0.003635119219033367,
         "conforme": true,
         "TEB_discriminateur": null,
-        "glissements_de_cycle": 0
+        "glissements_de_cycle": 0,
+        "hors_accrochage": false
       },
       {
         "EbN0_dB": 12,
@@ -63,7 +66,8 @@
         "theorie": 0.00019271434459050552,
         "conforme": true,
         "TEB_discriminateur": null,
-        "glissements_de_cycle": 0
+        "glissements_de_cycle": 0,
+        "hors_accrochage": false
       },
       {
         "EbN0_dB": 14,
@@ -72,10 +76,11 @@
         "TEB": 0,
         "erreurs": 0,
         "mesure": 0,
-        "theorie": 1.8495411768792991E-6,
+        "theorie": 1.8495411769348102E-6,
         "conforme": true,
         "TEB_discriminateur": null,
-        "glissements_de_cycle": 0
+        "glissements_de_cycle": 0,
+        "hors_accrochage": false
       }
     ]
   },
@@ -87,7 +92,7 @@
       "rotation_ambiguite_deg": 0,
       "erreurs_symboles": 0,
       "symboles": 2700,
-      "gain": 1.0000965264620632,
+      "gain": 1.0000965264620598,
       "evm": 9.6526462062963212E-5
     },
     "spectre": {
@@ -107,7 +112,8 @@
         "theorie": 0.1142763629458107,
         "conforme": true,
         "TEB_discriminateur": null,
-        "glissements_de_cycle": 0
+        "glissements_de_cycle": 0,
+        "hors_accrochage": false
       },
       {
         "EbN0_dB": 12,
@@ -116,10 +122,11 @@
         "TEB": 0.023370370370370371,
         "erreurs": 631,
         "mesure": 0.046740740740740742,
-        "theorie": 0.0459686353970451,
+        "theorie": 0.045968635397045043,
         "conforme": true,
         "TEB_discriminateur": null,
-        "glissements_de_cycle": 0
+        "glissements_de_cycle": 0,
+        "hors_accrochage": false
       },
       {
         "EbN0_dB": 14,
@@ -128,10 +135,11 @@
         "TEB": 0.0061111111111111114,
         "erreurs": 165,
         "mesure": 0.012222222222222223,
-        "theorie": 0.011348207432379687,
+        "theorie": 0.011348207432379631,
         "conforme": true,
         "TEB_discriminateur": null,
-        "glissements_de_cycle": 0
+        "glissements_de_cycle": 0,
+        "hors_accrochage": false
       },
       {
         "EbN0_dB": 16,
@@ -140,10 +148,11 @@
         "TEB": 0.00055555555555555556,
         "erreurs": 15,
         "mesure": 0.0011111111111111111,
-        "theorie": 0.0012953290534821471,
+        "theorie": 0.0012953290534820361,
         "conforme": true,
         "TEB_discriminateur": null,
-        "glissements_de_cycle": 0
+        "glissements_de_cycle": 0,
+        "hors_accrochage": false
       },
       {
         "EbN0_dB": 18,
@@ -152,10 +161,11 @@
         "TEB": 0,
         "erreurs": 0,
         "mesure": 0,
-        "theorie": 4.3551353681892113E-5,
+        "theorie": 4.355135368172558E-5,
         "conforme": true,
         "TEB_discriminateur": null,
-        "glissements_de_cycle": 0
+        "glissements_de_cycle": 0,
+        "hors_accrochage": false
       }
     ]
   },
@@ -167,7 +177,7 @@
       "rotation_ambiguite_deg": 0,
       "erreurs_symboles": 0,
       "symboles": 2700,
-      "gain": 1.0000948208718532,
+      "gain": 1.0000948208718534,
       "evm": 0.0018494587762574327
     },
     "spectre": {
@@ -184,10 +194,11 @@
         "TEB": 0.08037037037037037,
         "erreurs": 1085,
         "mesure": 0.08037037037037037,
-        "theorie": 0.078649603525142567,
+        "theorie": 0.078649603525142553,
         "conforme": true,
         "TEB_discriminateur": null,
-        "glissements_de_cycle": 0
+        "glissements_de_cycle": 0,
+        "hors_accrochage": false
       },
       {
         "EbN0_dB": 2,
@@ -199,7 +210,8 @@
         "theorie": 0.037506128358925979,
         "conforme": true,
         "TEB_discriminateur": null,
-        "glissements_de_cycle": 0
+        "glissements_de_cycle": 0,
+        "hors_accrochage": false
       },
       {
         "EbN0_dB": 4,
@@ -208,10 +220,11 @@
         "TEB": 0.012444444444444444,
         "erreurs": 168,
         "mesure": 0.012444444444444444,
-        "theorie": 0.01250081804073756,
+        "theorie": 0.012500818040737558,
         "conforme": true,
         "TEB_discriminateur": null,
-        "glissements_de_cycle": 0
+        "glissements_de_cycle": 0,
+        "hors_accrochage": false
       },
       {
         "EbN0_dB": 6,
@@ -220,10 +233,11 @@
         "TEB": 0.0028148148148148147,
         "erreurs": 38,
         "mesure": 0.0028148148148148147,
-        "theorie": 0.0023882907809328066,
+        "theorie": 0.0023882907809328071,
         "conforme": true,
         "TEB_discriminateur": null,
-        "glissements_de_cycle": 0
+        "glissements_de_cycle": 0,
+        "hors_accrochage": false
       },
       {
         "EbN0_dB": 8,
@@ -232,10 +246,11 @@
         "TEB": 0.00014814814814814815,
         "erreurs": 2,
         "mesure": 0.00014814814814814815,
-        "theorie": 0.00019090777407599295,
+        "theorie": 0.00019090777407599298,
         "conforme": true,
         "TEB_discriminateur": null,
-        "glissements_de_cycle": 0
+        "glissements_de_cycle": 0,
+        "hors_accrochage": false
       }
     ]
   },
@@ -265,9 +280,10 @@
         "erreurs": 10106,
         "mesure": 0.74859259259259259,
         "theorie": 0.15111344691562306,
-        "conforme": false,
+        "conforme": true,
         "TEB_discriminateur": null,
-        "glissements_de_cycle": 10
+        "glissements_de_cycle": 10,
+        "hors_accrochage": true
       },
       {
         "EbN0_dB": 2,
@@ -279,7 +295,8 @@
         "theorie": 0.073605547053375783,
         "conforme": true,
         "TEB_discriminateur": null,
-        "glissements_de_cycle": 1
+        "glissements_de_cycle": 1,
+        "hors_accrochage": true
       },
       {
         "EbN0_dB": 4,
@@ -288,10 +305,11 @@
         "TEB": 0.014185185185185184,
         "erreurs": 381,
         "mesure": 0.028222222222222221,
-        "theorie": 0.024845365629787505,
+        "theorie": 0.0248453656297875,
         "conforme": true,
         "TEB_discriminateur": null,
-        "glissements_de_cycle": 0
+        "glissements_de_cycle": 0,
+        "hors_accrochage": false
       },
       {
         "EbN0_dB": 6,
@@ -303,7 +321,8 @@
         "theorie": 0.0047708776290113306,
         "conforme": true,
         "TEB_discriminateur": null,
-        "glissements_de_cycle": 0
+        "glissements_de_cycle": 0,
+        "hors_accrochage": false
       },
       {
         "EbN0_dB": 8,
@@ -315,7 +334,8 @@
         "theorie": 0.00038177910237378404,
         "conforme": true,
         "TEB_discriminateur": null,
-        "glissements_de_cycle": 0
+        "glissements_de_cycle": 0,
+        "hors_accrochage": false
       }
     ]
   },
@@ -327,7 +347,7 @@
       "rotation_ambiguite_deg": 315,
       "erreurs_symboles": 0,
       "symboles": 2700,
-      "gain": 0.99974298999223032,
+      "gain": 0.99974298999223,
       "evm": 0.019458837341466709
     },
     "spectre": {
@@ -342,9 +362,10 @@
         "erreurs": 7094,
         "mesure": 0.52548148148148144,
         "theorie": 0.1373689037564238,
-        "conforme": false,
+        "conforme": true,
         "TEB_discriminateur": null,
-        "glissements_de_cycle": 7
+        "glissements_de_cycle": 7,
+        "hors_accrochage": true
       },
       {
         "EbN0_dB": 6,
@@ -354,9 +375,10 @@
         "erreurs": 1875,
         "mesure": 0.1388888888888889,
         "theorie": 0.0614397397251312,
-        "conforme": false,
+        "conforme": true,
         "TEB_discriminateur": null,
-        "glissements_de_cycle": 1
+        "glissements_de_cycle": 1,
+        "hors_accrochage": true
       },
       {
         "EbN0_dB": 8,
@@ -368,7 +390,8 @@
         "theorie": 0.018543155232649971,
         "conforme": true,
         "TEB_discriminateur": null,
-        "glissements_de_cycle": 0
+        "glissements_de_cycle": 0,
+        "hors_accrochage": false
       },
       {
         "EbN0_dB": 10,
@@ -377,10 +400,11 @@
         "TEB": 0.0016790123456790125,
         "erreurs": 68,
         "mesure": 0.0050370370370370369,
-        "theorie": 0.0030341859621384757,
+        "theorie": 0.0030341859621384748,
         "conforme": true,
         "TEB_discriminateur": null,
-        "glissements_de_cycle": 0
+        "glissements_de_cycle": 0,
+        "hors_accrochage": false
       },
       {
         "EbN0_dB": 12,
@@ -392,7 +416,8 @@
         "theorie": 0.00019013636469900958,
         "conforme": true,
         "TEB_discriminateur": null,
-        "glissements_de_cycle": 0
+        "glissements_de_cycle": 0,
+        "hors_accrochage": false
       }
     ]
   },
@@ -404,7 +429,7 @@
       "rotation_ambiguite_deg": 0,
       "erreurs_symboles": 0,
       "symboles": 2700,
-      "gain": 1.0000141661851749,
+      "gain": 1.0000141661851563,
       "evm": 0.0047735837567700152
     },
     "spectre": {
@@ -419,9 +444,10 @@
         "erreurs": 9099,
         "mesure": 0.674,
         "theorie": 0.22072933547615337,
-        "conforme": false,
+        "conforme": true,
         "TEB_discriminateur": null,
-        "glissements_de_cycle": 9
+        "glissements_de_cycle": 9,
+        "hors_accrochage": true
       },
       {
         "EbN0_dB": 6,
@@ -433,7 +459,8 @@
         "theorie": 0.10837798641478547,
         "conforme": true,
         "TEB_discriminateur": null,
-        "glissements_de_cycle": 0
+        "glissements_de_cycle": 0,
+        "hors_accrochage": false
       },
       {
         "EbN0_dB": 8,
@@ -445,7 +472,8 @@
         "theorie": 0.03664681110244028,
         "conforme": true,
         "TEB_discriminateur": null,
-        "glissements_de_cycle": 0
+        "glissements_de_cycle": 0,
+        "hors_accrochage": false
       },
       {
         "EbN0_dB": 10,
@@ -457,7 +485,8 @@
         "theorie": 0.0070042942940099495,
         "conforme": true,
         "TEB_discriminateur": null,
-        "glissements_de_cycle": 0
+        "glissements_de_cycle": 0,
+        "hors_accrochage": false
       },
       {
         "EbN0_dB": 12,
@@ -469,7 +498,8 @@
         "theorie": 0.00055455785032254568,
         "conforme": true,
         "TEB_discriminateur": null,
-        "glissements_de_cycle": 0
+        "glissements_de_cycle": 0,
+        "hors_accrochage": false
       }
     ]
   },
@@ -500,7 +530,8 @@
         "theorie": 0.1424035434814758,
         "conforme": true,
         "TEB_discriminateur": 0.339037037037037,
-        "glissements_de_cycle": 0
+        "glissements_de_cycle": 0,
+        "hors_accrochage": false
       },
       {
         "EbN0_dB": 6,
@@ -512,7 +543,8 @@
         "theorie": 0.06831109822261483,
         "conforme": true,
         "TEB_discriminateur": 0.2688888888888889,
-        "glissements_de_cycle": 0
+        "glissements_de_cycle": 0,
+        "hors_accrochage": false
       },
       {
         "EbN0_dB": 8,
@@ -524,7 +556,8 @@
         "theorie": 0.021323747889132938,
         "conforme": true,
         "TEB_discriminateur": 0.18125925925925926,
-        "glissements_de_cycle": 0
+        "glissements_de_cycle": 0,
+        "hors_accrochage": false
       },
       {
         "EbN0_dB": 10,
@@ -536,7 +569,8 @@
         "theorie": 0.0033689734995427335,
         "conforme": true,
         "TEB_discriminateur": 0.09318518518518519,
-        "glissements_de_cycle": 0
+        "glissements_de_cycle": 0,
+        "hors_accrochage": false
       },
       {
         "EbN0_dB": 12,
@@ -548,7 +582,8 @@
         "theorie": 0.00018089150200558806,
         "conforme": true,
         "TEB_discriminateur": 0.035629629629629629,
-        "glissements_de_cycle": 0
+        "glissements_de_cycle": 0,
+        "hors_accrochage": false
       }
     ]
   }
