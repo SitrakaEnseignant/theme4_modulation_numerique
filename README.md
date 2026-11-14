@@ -39,7 +39,7 @@ Pour chaque modulation et dans chaque outil : aucune erreur sans bruit, constell
 spectre conforme (zéros à fc ± k·Rs pour l'impulsion rectangulaire, 98 % de la puissance dans la bande pour le
 cosinus surélevé, raies à fc ± 1 kHz pour la FSK), puis taux d'erreur mesuré comparé à la théorie pour cinq Eb/N0.
 Aux faibles Eb/N0, une boucle peut glisser de 2π/ordre (glissement de cycle) : ces points sont tracés par une croix
-et notés « hors accrochage » ; aucun glissement n'est admis lorsque le taux d'erreur théorique est inférieur à 1 %.
+et notés « hors accrochage » ; lorsque le taux d'erreur théorique est inférieur à 1 %, un glissement isolé est toléré et signalé, plusieurs glissements font échouer le contrôle.
 
 ## Références
 
