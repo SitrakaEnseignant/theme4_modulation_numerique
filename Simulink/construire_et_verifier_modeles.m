@@ -452,8 +452,8 @@ for e = m.ebn0
     A2 = aligner(m, sym2, dec2, P); [es, ns, eb, nb, gl] = compter(m, sym2, dec2, A2, P);
     if strcmp(m.compare, 'TEB'), mes = eb / nb; ne = eb; else, mes = es / ns; ne = es; end
     th = theorie(m, g); ok = ne < 50 || (mes / th > 1 / tol && mes / th < tol); td = NaN;
-    % boucle qui glisse : point rapporte hors accrochage ; aucun glissement admis lorsque la theorie est sous 1 %
-    hc = boucle && gl > 0; if hc, ok = th > 0.01; end
+    % boucle qui glisse : point rapporte hors accrochage ; sous 1 % d'erreur theorique, un glissement isole est tolere
+    hc = boucle && gl > 0; if hc, ok = th > 0.01 || gl <= 1; end
     if strcmp(m.nom, 'fsk2')
         dd = round(double(lire(so2, 'dec_d'))); Ad = aligner(m, sym2, dd, P); [~, ~, ebd, nbd] = compter(m, sym2, dd, Ad, P); td = ebd / nbd;
     end

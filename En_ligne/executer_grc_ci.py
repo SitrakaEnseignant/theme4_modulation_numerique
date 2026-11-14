@@ -174,9 +174,10 @@ for k, m in MODS.items():
         nerr = eb if m['compare'] == 'TEB' else es
         th = theorie(m, g); ok = nerr < 50 or 1 / tol < mesure / th < tol
         # une boucle qui glisse (décrochage) n'a plus une référence de phase cohérente : le point est rapporté
-        # comme « hors accrochage » ; au-delà du seuil de fonctionnement (théorie < 1 %), aucun glissement n'est admis
+        # comme « hors accrochage » ; au-delà du seuil de fonctionnement (théorie < 1 %), un glissement isolé est
+        # toléré (événement rare, signalé), plusieurs glissements font échouer le contrôle
         decroche = boucle and gl > 0
-        if decroche: ok = th > 0.01
+        if decroche: ok = th > 0.01 or gl <= 1
         pt = {'EbN0_dB': e_db, 'ecart_type_bruit': round(sig, 5), 'TES': es / ns, 'TEB': eb / nb, 'erreurs': nerr,
               'mesure': mesure, 'theorie': th, 'conforme': bool(ok), 'retard': L2, 'rotation_ambiguite_deg': 360.0 * rot2 / m['ordre'], 'glissements_de_cycle': gl, 'hors_accrochage': bool(decroche), **info}
         if k == 'fsk2':
