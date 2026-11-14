@@ -1,0 +1,1107 @@
+options:
+  parameters:
+    author: Thème 4 - modulations numériques (simulation pure)
+    catch_exceptions: 'True'
+    category: '[GRC Hier Blocks]'
+    cmake_opt: ''
+    comment: ''
+    copyright: ''
+    description: BPSK, 2 symboles, racine de cosinus surélevé, porteuse fc, bruit blanc gaussien, récepteur en quadrature, filtre adapté, échantillonnage et décision.
+    gen_cmake: 'On'
+    gen_linking: dynamic
+    generate_options: qt_gui
+    hier_block_src_path: '.:'
+    id: bpsk_tx_rx_sim
+    max_nouts: '0'
+    output_language: python
+    placement: (0,0)
+    qt_qss_theme: ''
+    realtime_scheduling: ''
+    run: 'True'
+    run_command: '{python} -u {filename}'
+    run_options: prompt
+    sizing_mode: fixed
+    thread_safe_setters: ''
+    title: 'BPSK : émetteur, canal et récepteur (simulation)'
+    window_size: (1200,1000)
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate:
+    - 8
+    - 8
+    rotation: 0
+    state: enabled
+blocks:
+- name: imports
+  id: import
+  parameters:
+    alias: ''
+    comment: ''
+    imports: 'import math
+
+      import numpy as np'
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate:
+    - 1100
+    - 12
+    rotation: 0
+    state: enabled
+- name: samp_rate
+  id: variable
+  parameters:
+    alias: ''
+    comment: ''
+    value: '32000.0'
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate:
+    - 16
+    - 12
+    rotation: 0
+    state: enabled
+- name: sps
+  id: variable
+  parameters:
+    alias: ''
+    comment: ''
+    value: '32'
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate:
+    - 150
+    - 12
+    rotation: 0
+    state: enabled
+- name: nsym
+  id: variable
+  parameters:
+    alias: ''
+    comment: ''
+    value: '20000'
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate:
+    - 260
+    - 12
+    rotation: 0
+    state: enabled
+- name: fc
+  id: qtgui_range
+  parameters:
+    alias: ''
+    comment: ''
+    value: '4000.0'
+    start: '2000'
+    stop: '8000'
+    step: '100'
+    label: 'Fréquence de la porteuse fc (Hz)'
+    widget: 'counter_slider'
+    rangeType: 'float'
+    gui_hint: '0,0,1,1'
+    orient: 'QtCore.Qt.Horizontal'
+    min_len: '200'
+    outputmsgname: 'value'
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate:
+    - 16
+    - 110
+    rotation: 0
+    state: enabled
+- name: noise_amp
+  id: qtgui_range
+  parameters:
+    alias: ''
+    comment: ''
+    value: '0.0'
+    start: '0'
+    stop: '1'
+    step: '0.005'
+    label: 'Écart type du bruit du canal'
+    widget: 'counter_slider'
+    rangeType: 'float'
+    gui_hint: '0,1,1,1'
+    orient: 'QtCore.Qt.Horizontal'
+    min_len: '200'
+    outputmsgname: 'value'
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate:
+    - 230
+    - 110
+    rotation: 0
+    state: enabled
+- name: constellation
+  id: variable_constellation
+  parameters:
+    comment: 'Note that GNUradio secretly re-scales your constellation
+
+      to have an average magnitude of 1. This is really annoying,
+
+      but is meant to work with the AGCs that rescale the signal in this way'
+    const_points: '[complex(1.0, 0.0), complex(-1.0, 0.0)]'
+    dims: '1'
+    normalization: 'digital.constellation.AMPLITUDE_NORMALIZATION'
+    npwr: '1.0'
+    precision: '8'
+    rot_sym: '4'
+    soft_dec_lut: 'None'
+    sym_map: '[0, 1]'
+    type: 'calcdist'
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate:
+    - 380
+    - 12
+    rotation: 0
+    state: enabled
+- name: alpha
+  id: variable
+  parameters:
+    alias: ''
+    comment: ''
+    value: '0.35'
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate:
+    - 560
+    - 12
+    rotation: 0
+    state: enabled
+- name: ntaps
+  id: variable
+  parameters:
+    alias: ''
+    comment: ''
+    value: '353'
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate:
+    - 660
+    - 12
+    rotation: 0
+    state: enabled
+- name: gain_ech
+  id: variable
+  parameters:
+    alias: ''
+    comment: ''
+    value: '1.007031'
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate:
+    - 760
+    - 12
+    rotation: 0
+    state: enabled
+- name: decalage
+  id: variable
+  parameters:
+    alias: ''
+    comment: ''
+    value: '1'
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate:
+    - 900
+    - 12
+    rotation: 0
+    state: enabled
+- name: src
+  id: analog_random_source_x
+  parameters:
+    affinity: ''
+    alias: ''
+    comment: ''
+    max: '2'
+    maxoutbuf: '0'
+    min: '0'
+    minoutbuf: '0'
+    num_samps: 'nsym'
+    repeat: 'True'
+    type: 'byte'
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate:
+    - 16
+    - 220
+    rotation: 0
+    state: enabled
+- name: symboles_tx
+  id: digital_chunks_to_symbols_xx
+  parameters:
+    affinity: ''
+    alias: ''
+    comment: ''
+    dimension: '1'
+    in_type: 'byte'
+    maxoutbuf: '0'
+    minoutbuf: '0'
+    num_ports: '1'
+    out_type: 'complex'
+    symbol_table: '[complex(1.0, 0.0), complex(-1.0, 0.0)]'
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate:
+    - 200
+    - 220
+    rotation: 0
+    state: enabled
+- name: mise_en_forme
+  id: root_raised_cosine_filter
+  parameters:
+    affinity: ''
+    alias: ''
+    alpha: 'alpha'
+    comment: ''
+    decim: '1'
+    gain: 'sps'
+    interp: 'sps'
+    maxoutbuf: '0'
+    minoutbuf: '0'
+    ntaps: 'ntaps'
+    samp_rate: 'samp_rate'
+    sym_rate: 'samp_rate/sps'
+    type: 'interp_fir_filter_ccf'
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate:
+    - 400
+    - 220
+    rotation: 0
+    state: enabled
+- name: throttle
+  id: blocks_throttle
+  parameters:
+    alias: ''
+    comment: ''
+    affinity: ''
+    maxoutbuf: '0'
+    minoutbuf: '0'
+    type: 'complex'
+    samples_per_second: 'samp_rate'
+    vlen: '1'
+    ignoretag: 'True'
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate:
+    - 600
+    - 220
+    rotation: 0
+    state: enabled
+- name: lo_tx
+  id: analog_sig_source_x
+  parameters:
+    alias: ''
+    comment: ''
+    affinity: ''
+    maxoutbuf: '0'
+    minoutbuf: '0'
+    type: 'complex'
+    samp_rate: 'samp_rate'
+    waveform: 'analog.GR_COS_WAVE'
+    freq: 'fc'
+    amp: '1'
+    offset: '0'
+    phase: '0'
+    showports: 'False'
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate:
+    - 600
+    - 310
+    rotation: 0
+    state: enabled
+- name: mix_tx
+  id: blocks_multiply_xx
+  parameters:
+    alias: ''
+    comment: ''
+    affinity: ''
+    maxoutbuf: '0'
+    minoutbuf: '0'
+    type: 'complex'
+    num_inputs: '2'
+    vlen: '1'
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate:
+    - 800
+    - 220
+    rotation: 0
+    state: enabled
+- name: emis_reel
+  id: blocks_complex_to_real
+  parameters:
+    alias: ''
+    comment: ''
+    affinity: ''
+    maxoutbuf: '0'
+    minoutbuf: '0'
+    vlen: '1'
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate:
+    - 960
+    - 220
+    rotation: 0
+    state: enabled
+- name: bande_base_I
+  id: blocks_complex_to_real
+  parameters:
+    alias: ''
+    comment: ''
+    affinity: ''
+    maxoutbuf: '0'
+    minoutbuf: '0'
+    vlen: '1'
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate:
+    - 800
+    - 330
+    rotation: 0
+    state: enabled
+- name: bruit
+  id: analog_noise_source_x
+  parameters:
+    alias: ''
+    comment: ''
+    affinity: ''
+    maxoutbuf: '0'
+    minoutbuf: '0'
+    type: 'float'
+    noise_type: 'analog.GR_GAUSSIAN'
+    amp: 'noise_amp'
+    seed: '1'
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate:
+    - 960
+    - 310
+    rotation: 0
+    state: enabled
+- name: canal
+  id: blocks_add_xx
+  parameters:
+    alias: ''
+    comment: ''
+    affinity: ''
+    maxoutbuf: '0'
+    minoutbuf: '0'
+    type: 'float'
+    num_inputs: '2'
+    vlen: '1'
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate:
+    - 1150
+    - 220
+    rotation: 0
+    state: enabled
+- name: scope_emis
+  id: qtgui_time_sink_x
+  parameters:
+    alias: ''
+    comment: ''
+    affinity: ''
+    maxoutbuf: '0'
+    minoutbuf: '0'
+    type: 'float'
+    name: '"scope_emis"'
+    size: '384'
+    srate: 'samp_rate'
+    nconnections: '2'
+    autoscale: 'False'
+    ymin: '-2'
+    ymax: '2'
+    update_time: '0.10'
+    grid: 'True'
+    entags: 'False'
+    gui_hint: '1,0,1,1'
+    legend: 'True'
+    ylabel: 'Amplitude'
+    yunit: '""'
+    tr_mode: 'qtgui.TRIG_MODE_FREE'
+    tr_level: '0.0'
+    tr_delay: '0'
+    tr_chan: '0'
+    tr_slope: 'qtgui.TRIG_SLOPE_POS'
+    tr_tag: '""'
+    axislabels: 'True'
+    ctrlpanel: 'False'
+    stemplot: 'False'
+    label1: '"signal émis"'
+    label2: '"voie I en bande de base"'
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate:
+    - 1150
+    - 110
+    rotation: 0
+    state: enabled
+- name: spectre_emis
+  id: qtgui_freq_sink_x
+  parameters:
+    alias: ''
+    comment: ''
+    affinity: ''
+    maxoutbuf: '0'
+    minoutbuf: '0'
+    type: 'float'
+    name: '"spectre_emis"'
+    fftsize: '4096'
+    wintype: 'window.WIN_BLACKMAN_hARRIS'
+    fc: '0'
+    bw: 'samp_rate'
+    nconnections: '1'
+    average: '0.1'
+    ymin: '-100'
+    ymax: '10'
+    update_time: '0.10'
+    grid: 'True'
+    autoscale: 'False'
+    gui_hint: '1,1,1,1'
+    legend: 'True'
+    axislabels: 'True'
+    ctrlpanel: 'False'
+    fftavg: 'False'
+    showports: 'False'
+    norm_window: 'False'
+    label: 'Relative Gain'
+    units: 'dB'
+    freqhalf: 'True'
+    tr_mode: 'qtgui.TRIG_MODE_FREE'
+    tr_level: '0.0'
+    tr_chan: '0'
+    tr_tag: '""'
+    label1: '"signal émis"'
+    label2: 'Bloc Repeat'
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate:
+    - 1350
+    - 110
+    rotation: 0
+    state: enabled
+- name: zero
+  id: analog_const_source_x
+  parameters:
+    alias: ''
+    comment: ''
+    affinity: ''
+    maxoutbuf: '0'
+    minoutbuf: '0'
+    type: 'float'
+    const: '0'
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate:
+    - 16
+    - 460
+    rotation: 0
+    state: enabled
+- name: to_cplx
+  id: blocks_float_to_complex
+  parameters:
+    alias: ''
+    comment: ''
+    affinity: ''
+    maxoutbuf: '0'
+    minoutbuf: '0'
+    vlen: '1'
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate:
+    - 200
+    - 380
+    rotation: 0
+    state: enabled
+- name: lo_rx
+  id: analog_sig_source_x
+  parameters:
+    alias: ''
+    comment: ''
+    affinity: ''
+    maxoutbuf: '0'
+    minoutbuf: '0'
+    type: 'complex'
+    samp_rate: 'samp_rate'
+    waveform: 'analog.GR_COS_WAVE'
+    freq: '-fc'
+    amp: '2'
+    offset: '0'
+    phase: '0'
+    showports: 'False'
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate:
+    - 200
+    - 480
+    rotation: 0
+    state: enabled
+- name: mix_rx
+  id: blocks_multiply_xx
+  parameters:
+    alias: ''
+    comment: ''
+    affinity: ''
+    maxoutbuf: '0'
+    minoutbuf: '0'
+    type: 'complex'
+    num_inputs: '2'
+    vlen: '1'
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate:
+    - 400
+    - 380
+    rotation: 0
+    state: enabled
+- name: filtre_adapte
+  id: root_raised_cosine_filter
+  parameters:
+    affinity: ''
+    alias: ''
+    alpha: 'alpha'
+    comment: ''
+    decim: '1'
+    gain: '1'
+    interp: '1'
+    maxoutbuf: '0'
+    minoutbuf: '0'
+    ntaps: 'ntaps'
+    samp_rate: 'samp_rate'
+    sym_rate: 'samp_rate/sps'
+    type: 'fir_filter_ccf'
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate:
+    - 560
+    - 380
+    rotation: 0
+    state: enabled
+- name: normalisation
+  id: blocks_multiply_const_vxx
+  parameters:
+    alias: ''
+    comment: ''
+    affinity: ''
+    maxoutbuf: '0'
+    minoutbuf: '0'
+    type: 'complex'
+    const: 'gain_ech'
+    vlen: '1'
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate:
+    - 760
+    - 380
+    rotation: 0
+    state: enabled
+- name: oeil
+  id: qtgui_eye_sink_x
+  parameters:
+    affinity: ''
+    alias: ''
+    alpha1: '1.0'
+    alpha10: '1.0'
+    alpha2: '1.0'
+    alpha3: '1.0'
+    alpha4: '1.0'
+    alpha5: '1.0'
+    alpha6: '1.0'
+    alpha7: '1.0'
+    alpha8: '1.0'
+    alpha9: '1.0'
+    autoscale: 'False'
+    axislabels: 'True'
+    color1: 'red'
+    color10: 'blue'
+    color2: 'blue'
+    color3: 'blue'
+    color4: 'blue'
+    color5: 'blue'
+    color6: 'blue'
+    color7: 'blue'
+    color8: 'blue'
+    color9: 'blue'
+    comment: ''
+    ctrlpanel: 'False'
+    entags: 'False'
+    grid: 'True'
+    gui_hint: '2,0,1,1'
+    label1: '"diagramme de l''oeil"'
+    label10: 'Signal 10'
+    label2: 'Signal 2'
+    label3: 'Signal 3'
+    label4: 'Signal 4'
+    label5: 'Signal 5'
+    label6: 'Signal 6'
+    label7: 'Signal 7'
+    label8: 'Signal 8'
+    label9: 'Signal 9'
+    legend: 'True'
+    marker1: '-1'
+    marker10: '-1'
+    marker2: '-1'
+    marker3: '-1'
+    marker4: '-1'
+    marker5: '-1'
+    marker6: '-1'
+    marker7: '-1'
+    marker8: '-1'
+    marker9: '-1'
+    nconnections: '1'
+    samp_per_symbol: 'sps'
+    size: '1024'
+    srate: 'samp_rate'
+    style1: '1'
+    style10: '1'
+    style2: '1'
+    style3: '1'
+    style4: '1'
+    style5: '1'
+    style6: '1'
+    style7: '1'
+    style8: '1'
+    style9: '1'
+    tr_chan: '0'
+    tr_delay: '0'
+    tr_level: '0.0'
+    tr_mode: 'qtgui.TRIG_MODE_FREE'
+    tr_slope: 'qtgui.TRIG_SLOPE_POS'
+    tr_tag: '""'
+    type: 'complex'
+    update_time: '0.10'
+    width1: '1'
+    width10: '1'
+    width2: '1'
+    width3: '1'
+    width4: '1'
+    width5: '1'
+    width6: '1'
+    width7: '1'
+    width8: '1'
+    width9: '1'
+    ylabel: 'Amplitude'
+    ymax: '3'
+    ymin: '-3'
+    yunit: '""'
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate:
+    - 960
+    - 470
+    rotation: 0
+    state: enabled
+- name: decalage_ech
+  id: blocks_skiphead
+  parameters:
+    affinity: ''
+    alias: ''
+    comment: 'skip one second of samples
+
+      to allow FLL to sync'
+    maxoutbuf: '0'
+    minoutbuf: '0'
+    num_items: 'decalage'
+    type: 'complex'
+    vlen: '1'
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate:
+    - 960
+    - 380
+    rotation: 0
+    state: enabled
+- name: echantillonnage
+  id: blocks_keep_one_in_n
+  parameters:
+    affinity: ''
+    alias: ''
+    comment: ''
+    maxoutbuf: '0'
+    minoutbuf: '0'
+    n: 'sps'
+    type: 'complex'
+    vlen: '1'
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate:
+    - 1150
+    - 380
+    rotation: 0
+    state: enabled
+- name: constellation_rx
+  id: qtgui_const_sink_x
+  parameters:
+    affinity: ''
+    alias: ''
+    alpha1: '1.0'
+    alpha10: '1.0'
+    alpha2: '1.0'
+    alpha3: '1.0'
+    alpha4: '1.0'
+    alpha5: '1.0'
+    alpha6: '1.0'
+    alpha7: '1.0'
+    alpha8: '1.0'
+    alpha9: '1.0'
+    autoscale: 'False'
+    axislabels: 'True'
+    color1: '"blue"'
+    color10: '"red"'
+    color2: '"red"'
+    color3: '"red"'
+    color4: '"red"'
+    color5: '"red"'
+    color6: '"red"'
+    color7: '"red"'
+    color8: '"red"'
+    color9: '"red"'
+    comment: ''
+    grid: 'True'
+    gui_hint: '2,1,1,1'
+    label1: '"échantillons"'
+    label10: ''
+    label2: ''
+    label3: ''
+    label4: ''
+    label5: ''
+    label6: ''
+    label7: ''
+    label8: ''
+    label9: ''
+    legend: 'True'
+    marker1: '0'
+    marker10: '0'
+    marker2: '0'
+    marker3: '0'
+    marker4: '0'
+    marker5: '0'
+    marker6: '0'
+    marker7: '0'
+    marker8: '0'
+    marker9: '0'
+    name: '"constellation_rx"'
+    nconnections: '1'
+    size: '1024'
+    style1: '0'
+    style10: '0'
+    style2: '0'
+    style3: '0'
+    style4: '0'
+    style5: '0'
+    style6: '0'
+    style7: '0'
+    style8: '0'
+    style9: '0'
+    tr_chan: '0'
+    tr_level: '0.0'
+    tr_mode: 'qtgui.TRIG_MODE_FREE'
+    tr_slope: 'qtgui.TRIG_SLOPE_POS'
+    tr_tag: '""'
+    type: 'complex'
+    update_time: '0.10'
+    width1: '1'
+    width10: '1'
+    width2: '1'
+    width3: '1'
+    width4: '1'
+    width5: '1'
+    width6: '1'
+    width7: '1'
+    width8: '1'
+    width9: '1'
+    xmax: '2.5'
+    xmin: '-2.5'
+    ymax: '2.5'
+    ymin: '-2.5'
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate:
+    - 1350
+    - 380
+    rotation: 0
+    state: enabled
+- name: tx_float
+  id: blocks_char_to_float
+  parameters:
+    affinity: ''
+    alias: ''
+    comment: ''
+    maxoutbuf: '0'
+    minoutbuf: '0'
+    scale: '1'
+    vlen: '1'
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate:
+    - 200
+    - 110
+    rotation: 0
+    state: enabled
+- name: decision
+  id: digital_constellation_decoder_cb
+  parameters:
+    affinity: ''
+    alias: ''
+    comment: ''
+    constellation: 'constellation'
+    maxoutbuf: '0'
+    minoutbuf: '0'
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate:
+    - 1150
+    - 560
+    rotation: 0
+    state: enabled
+- name: dec_float
+  id: blocks_char_to_float
+  parameters:
+    affinity: ''
+    alias: ''
+    comment: ''
+    maxoutbuf: '0'
+    minoutbuf: '0'
+    scale: '1'
+    vlen: '1'
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate:
+    - 1350
+    - 560
+    rotation: 0
+    state: enabled
+- name: symboles
+  id: qtgui_time_sink_x
+  parameters:
+    alias: ''
+    comment: ''
+    affinity: ''
+    maxoutbuf: '0'
+    minoutbuf: '0'
+    type: 'float'
+    name: '"symboles"'
+    size: '64'
+    srate: 'samp_rate'
+    nconnections: '2'
+    autoscale: 'False'
+    ymin: '-1'
+    ymax: '2'
+    update_time: '0.10'
+    grid: 'True'
+    entags: 'False'
+    gui_hint: '3,0,1,2'
+    legend: 'True'
+    ylabel: 'Amplitude'
+    yunit: '""'
+    tr_mode: 'qtgui.TRIG_MODE_FREE'
+    tr_level: '0.0'
+    tr_delay: '0'
+    tr_chan: '0'
+    tr_slope: 'qtgui.TRIG_SLOPE_POS'
+    tr_tag: '""'
+    axislabels: 'True'
+    ctrlpanel: 'False'
+    stemplot: 'False'
+    label1: '"symbole émis"'
+    label2: '"symbole décidé"'
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate:
+    - 1550
+    - 560
+    rotation: 0
+    state: enabled
+connections:
+- - src
+  - '0'
+  - symboles_tx
+  - '0'
+- - symboles_tx
+  - '0'
+  - mise_en_forme
+  - '0'
+- - mise_en_forme
+  - '0'
+  - throttle
+  - '0'
+- - throttle
+  - '0'
+  - mix_tx
+  - '0'
+- - lo_tx
+  - '0'
+  - mix_tx
+  - '1'
+- - mix_tx
+  - '0'
+  - emis_reel
+  - '0'
+- - throttle
+  - '0'
+  - bande_base_I
+  - '0'
+- - emis_reel
+  - '0'
+  - canal
+  - '0'
+- - bruit
+  - '0'
+  - canal
+  - '1'
+- - emis_reel
+  - '0'
+  - scope_emis
+  - '0'
+- - bande_base_I
+  - '0'
+  - scope_emis
+  - '1'
+- - emis_reel
+  - '0'
+  - spectre_emis
+  - '0'
+- - canal
+  - '0'
+  - to_cplx
+  - '0'
+- - zero
+  - '0'
+  - to_cplx
+  - '1'
+- - to_cplx
+  - '0'
+  - mix_rx
+  - '0'
+- - lo_rx
+  - '0'
+  - mix_rx
+  - '1'
+- - mix_rx
+  - '0'
+  - filtre_adapte
+  - '0'
+- - filtre_adapte
+  - '0'
+  - normalisation
+  - '0'
+- - normalisation
+  - '0'
+  - oeil
+  - '0'
+- - normalisation
+  - '0'
+  - decalage_ech
+  - '0'
+- - decalage_ech
+  - '0'
+  - echantillonnage
+  - '0'
+- - echantillonnage
+  - '0'
+  - constellation_rx
+  - '0'
+- - echantillonnage
+  - '0'
+  - decision
+  - '0'
+- - decision
+  - '0'
+  - dec_float
+  - '0'
+- - src
+  - '0'
+  - tx_float
+  - '0'
+- - tx_float
+  - '0'
+  - symboles
+  - '0'
+- - dec_float
+  - '0'
+  - symboles
+  - '1'
+metadata:
+  file_format: 1
+  grc_version: 3.10.9.2
