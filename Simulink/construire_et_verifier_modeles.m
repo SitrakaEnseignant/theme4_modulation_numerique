@@ -442,19 +442,21 @@ else
     if max(lv) > -20, echecs{end + 1} = sprintf('%s : zeros du spectre a %.1f dB', m.nom, max(lv)); end
 end
 tol = 1.5; if boucle, tol = 2; end
-taux = struct('EbN0_dB', {}, 'variance_bruit', {}, 'TES', {}, 'TEB', {}, 'erreurs', {}, 'mesure', {}, 'theorie', {}, 'conforme', {}, 'TEB_discriminateur', {}, 'glissements_de_cycle', {});
+taux = struct('EbN0_dB', {}, 'variance_bruit', {}, 'TES', {}, 'TEB', {}, 'erreurs', {}, 'mesure', {}, 'theorie', {}, 'conforme', {}, 'TEB_discriminateur', {}, 'glissements_de_cycle', {}, 'hors_accrochage', {});
 for e = m.ebn0
     g = 10 ^ (e / 10); s2 = Ps * P.sps / (2 * m.bits * g);
     so2 = simuler(mdl, 16000, s2, P); sym2 = round(lire(so2, 'sym')); dec2 = round(double(lire(so2, 'dec')));
     A2 = aligner(m, sym2, dec2, P); [es, ns, eb, nb, gl] = compter(m, sym2, dec2, A2, P);
     if strcmp(m.compare, 'TEB'), mes = eb / nb; ne = eb; else, mes = es / ns; ne = es; end
     th = theorie(m, g); ok = ne < 50 || (mes / th > 1 / tol && mes / th < tol); td = NaN;
+    % boucle qui glisse : point rapporte hors accrochage ; aucun glissement admis lorsque la theorie est sous 1 %
+    hc = boucle && gl > 0; if hc, ok = th > 0.01; end
     if strcmp(m.nom, 'fsk2')
         dd = round(double(lire(so2, 'dec_d'))); Ad = aligner(m, sym2, dd, P); [~, ~, ebd, nbd] = compter(m, sym2, dd, Ad, P); td = ebd / nbd;
     end
     taux(end + 1) = struct('EbN0_dB', e, 'variance_bruit', s2, 'TES', es / ns, 'TEB', eb / nb, 'erreurs', ne, ...
-        'mesure', mes, 'theorie', th, 'conforme', ok, 'TEB_discriminateur', td, 'glissements_de_cycle', gl); %#ok<AGROW>
-    fprintf('Eb/N0 = %4.1f dB : %s mesure %.3e (%d erreurs), theorie %.3e  %s\n', e, m.compare, mes, ne, th, string(ok));
+        'mesure', mes, 'theorie', th, 'conforme', ok, 'TEB_discriminateur', td, 'glissements_de_cycle', gl, 'hors_accrochage', hc); %#ok<AGROW>
+    fprintf('Eb/N0 = %4.1f dB : %s mesure %.3e (%d erreurs), theorie %.3e, %d glissements  %s\n', e, m.compare, mes, ne, th, gl, string(ok));
     if ~ok, echecs{end + 1} = sprintf('%s : Eb/N0 %g dB, mesure %.3g, theorie %.3g', m.nom, e, mes, th); end %#ok<AGROW>
     if e == m.ebn0(3), xmid = lire(so2, 'ech'); end
 end
@@ -508,10 +510,13 @@ for i = 1:numel(mods)
     m = mods(i); t = R.(m.nom).taux; e = [t.EbN0_dB]; y = [t.mesure]; y(y == 0) = NaN;
     ee = linspace(min(e) - 1, max(e) + 1, 50); th = arrayfun(@(x) theorie(m, 10 ^ (x / 10)), ee);
     semilogy(ee, th, '-', 'Color', co(i, :)); hold on;
-    semilogy(e, y, 'o', 'Color', co(i, :), 'DisplayName', [m.titre ' (' m.compare ')']);
+    hc = logical([t.hors_accrochage]);
+    semilogy(e(~hc), y(~hc), 'o', 'Color', co(i, :), 'DisplayName', [m.titre ' (' m.compare ')']);
+    if any(hc), semilogy(e(hc), y(hc), 'x', 'Color', co(i, :), 'MarkerSize', 10, 'LineWidth', 2, 'HandleVisibility', 'off'); end
 end
+semilogy(NaN, NaN, 'kx', 'MarkerSize', 10, 'LineWidth', 2, 'DisplayName', 'boucle hors accrochage (glissements de cycle)');
 ylim([1e-5 0.5]); grid on; xlabel('Eb/N0 (dB)'); ylabel('taux d''erreur');
 title(['Taux d''erreur mesures dans Simulink (points) et theorie (traits) - MATLAB R' version('-release')]);
-h = findobj(gca, 'Marker', 'o'); legend(flipud(h), 'Location', 'southwest');
+h = [flipud(findobj(gca, 'Marker', 'o')); findobj(gca, 'Marker', 'x', 'HandleVisibility', 'on')]; legend(h, 'Location', 'southwest');
 exportgraphics(fh, fullfile(ici, 'taux_erreur_simulink.png'), 'Resolution', 130); close(fh);
 end

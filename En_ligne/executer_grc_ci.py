@@ -173,8 +173,12 @@ for k, m in MODS.items():
         mesure = eb / nb if m['compare'] == 'TEB' else es / ns
         nerr = eb if m['compare'] == 'TEB' else es
         th = theorie(m, g); ok = nerr < 50 or 1 / tol < mesure / th < tol
+        # une boucle qui glisse (décrochage) n'a plus une référence de phase cohérente : le point est rapporté
+        # comme « hors accrochage » ; au-delà du seuil de fonctionnement (théorie < 1 %), aucun glissement n'est admis
+        decroche = boucle and gl > 0
+        if decroche: ok = th > 0.01
         pt = {'EbN0_dB': e_db, 'ecart_type_bruit': round(sig, 5), 'TES': es / ns, 'TEB': eb / nb, 'erreurs': nerr,
-              'mesure': mesure, 'theorie': th, 'conforme': bool(ok), 'retard': L2, 'rotation_ambiguite_deg': 360.0 * rot2 / m['ordre'], 'glissements_de_cycle': gl, **info}
+              'mesure': mesure, 'theorie': th, 'conforme': bool(ok), 'retard': L2, 'rotation_ambiguite_deg': 360.0 * rot2 / m['ordre'], 'glissements_de_cycle': gl, 'hors_accrochage': bool(decroche), **info}
         if k == 'fsk2':
             Ld, _, pd, _ = aligner(m, tx2, d2['symboles'][2]); pt['TEB_discriminateur'] = erreurs(m, tx2, d2['symboles'][2], Ld, pd)[2] / nb
         r['taux'].append(pt)
@@ -227,7 +231,10 @@ for i, (k, m) in enumerate(MODS.items()):
     e = np.array([p['EbN0_dB'] for p in R[k]['taux']]); y = np.array([p['mesure'] for p in R[k]['taux']])
     ee = np.linspace(e.min() - 1, e.max() + 1, 60)
     ax.semilogy(ee, [theorie(m, 10 ** (x / 10)) for x in ee], color=f'C{i}', lw=1)
-    ax.semilogy(e, np.where(y > 0, y, np.nan), 'o', color=f'C{i}', label=f"{m['titre']} ({m['compare']})")
+    hc = np.array([p.get('hors_accrochage', False) for p in R[k]['taux']])
+    ax.semilogy(e[~hc], np.where(y > 0, y, np.nan)[~hc], 'o', color=f'C{i}', label=f"{m['titre']} ({m['compare']})")
+    if hc.any(): ax.semilogy(e[hc], y[hc], 'x', color=f'C{i}', ms=9, mew=2)
+ax.semilogy([], [], 'kx', ms=9, mew=2, label='boucle hors accrochage (glissements de cycle)')
 ax.set_ylim(1e-5, 0.5); ax.set_xlabel('Eb/N0 (dB)'); ax.set_ylabel("taux d'erreur")
 ax.set_title("Taux d'erreur mesurés dans GNU Radio (points) et théorie (traits)"); ax.grid(which='both', ls=':'); ax.legend(fontsize=8)
 fig.tight_layout(); fig.savefig(os.path.join(OUT, 'taux_erreur_gnuradio.png'), dpi=110); plt.close(fig)
